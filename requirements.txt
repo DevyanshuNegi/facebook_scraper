@@ -1,0 +1,6 @@
+flask
+playwright
+gunicorn
+requests
+asyncio
+concurrent.futures

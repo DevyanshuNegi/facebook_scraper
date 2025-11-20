@@ -1,0 +1,1212 @@
+{
+  "metadata": {
+    "processed_at": "2025-11-16T12:04:14.252273",
+    "total_urls": 107,
+    "data_source": "sampledata.json"
+  },
+  "performance_metrics": {
+    "total_urls": 107,
+    "successful_scrapes": 81,
+    "failed_scrapes": 26,
+    "total_processing_time": 245.600507,
+    "average_time_per_url": 19.1026416604764,
+    "fastest_scrape": 2.0381243228912354,
+    "slowest_scrape": 46.58683514595032,
+    "success_rate": 75.70093457943925,
+    "start_time": "2025-11-16T12:00:08.649419",
+    "end_time": "2025-11-16T12:04:14.249926",
+    "emails_found": [
+      "reception@heidelbergdermatology.com.au",
+      "referral@completeskinspecialists.com.au",
+      "admin@skinplus.com.au",
+      "reception@nsdermatology.com.au",
+      "reception@foleydermatology.com.au",
+      "reception@riversdaledermatology.com.au",
+      "appointments@drportiamillar.com.au",
+      "reception@northsidedermatology.com.au",
+      "reception@skindepth.com.au",
+      "dermatology@div.net.au",
+      "info@dermacosmetika.com.au",
+      "info@qiderm.com.au",
+      "ensichatr@gmail.com",
+      "info@melbourneskin.com",
+      "info@physicianssa.com.au",
+      "info@melbourneskin.com",
+      "coordinator@rapidantigensupervision.com.au",
+      "info@skinhospital.edu.au",
+      "info@procosmetic.com.au",
+      "lsc@laserskincare.com.au",
+      "admin@goodhealthmedical.net.au",
+      "betterhealthgreenhills@gmail.com",
+      "info@canberranoticeboard.com.au",
+      "reception@burrumstreet.com.au",
+      "info@turbotstmc.com.au",
+      "admin@poetscornermc.com.au",
+      "reception@kirwangpclinic.com.au",
+      "reception@ivanhoefamilydoctors.com.au",
+      "familydoctors@bigpond.com",
+      "reception@mwmedicalcentre.com.au",
+      "admin@awalmedical.com.au",
+      "admin@wamcentre.com.au",
+      "reception@lakesidesquaremedical.com.au",
+      "admin@merthyrmedical.com",
+      "hardtarget200@gmail.com",
+      "admin.armidale@thcfa.org.au",
+      "thegrangeclinic@gmail.com",
+      "info@glassstreetclinic.com.au",
+      "contact@gungahlinmedicalpractice.com.au",
+      "admin@sladepoint.com.au",
+      "bombalastreetsurgery@gmail.com",
+      "reception@stawellclinic.com.au",
+      "natasha@nbskinmedics.com.au",
+      "reception@dandenongeyesurgeons.com.au",
+      "info@herbalmedicine.ie",
+      "reception@wsgp.com.au",
+      "info@sydneydermatology.net.au",
+      "office@orangedms.com.au",
+      "info@valentinehealthcare.com.au",
+      "info@victoriandermalgroup.com.au",
+      "info@bendigodoctorsmc.com.au",
+      "admin@queenstmed.com.au",
+      "info@launcestonmc.com.au",
+      "manager@carnegiedoctors.com.au",
+      "reception@eastsydneydoctors.com.au",
+      "newmed@newmed.org",
+      "ifmc@ifmc.net.au",
+      "adminsp@topendmedicalcentre.com.au",
+      "reception@donvalemedical.com.au",
+      "reception@carinamedical.com.au",
+      "admin@newcastlefp.com.au",
+      "enquiries@smithstmedical.com.au",
+      "office@bfpractice.com",
+      "info@mgp.net.au",
+      "reception@listerhouseclinic.com.au",
+      "albury.reception@skincancercentres.com.au",
+      "info@theneighbourhood.clinic",
+      "reception.fernvale@healthmattersgroup.com.au",
+      "reception.fernvale@healthmattersgroup.com.au",
+      "office@broadmeadowmedical.com.au",
+      "info@wrclinic.com.au",
+      "info@sffp.com.au",
+      "kiama.medical@kiamamedical.com.au",
+      "feedback@conmed.com.au",
+      "vved@nh.org.au",
+      "reception@kynetonmedical.com.au",
+      "reception@kynetonmedical.com.au",
+      "pracadmin@gponbeaufort.com.au",
+      "devonport.reception@smartclinics.com.au",
+      "admin@kontikimedical.com.au",
+      "reception@wtmed.com.au"
+    ],
+    "unique_emails": 78,
+    "cache_efficiency": 0.0
+  },
+  "results": [
+    {
+      "url": "https://www.facebook.com/pages/Malvern-Dermatology-Skin-Cancer-Clinic/138900222844014?locale=sv_SE",
+      "email": null,
+      "success": false,
+      "processing_time": 46.152841329574585,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:00:55.837295",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/heidelbergderm/",
+      "email": "reception@heidelbergdermatology.com.au",
+      "success": true,
+      "processing_time": 45.69556665420532,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838125",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/completeskinspecialists/",
+      "email": "referral@completeskinspecialists.com.au",
+      "success": true,
+      "processing_time": 30.00636649131775,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838137",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/skinplusfindon/",
+      "email": "admin@skinplus.com.au",
+      "success": true,
+      "processing_time": 41.052006244659424,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838139",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100063619750971/",
+      "email": "reception@nsdermatology.com.au",
+      "success": true,
+      "processing_time": 46.129016399383545,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838142",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Foley-Dermatology-Associates-61573760490264/",
+      "email": "reception@foleydermatology.com.au",
+      "success": true,
+      "processing_time": 30.020915031433105,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838145",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100064059904278/",
+      "email": null,
+      "success": false,
+      "processing_time": 40.82151937484741,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:00:55.838149",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/riversdaledermatology/",
+      "email": "reception@riversdaledermatology.com.au",
+      "success": true,
+      "processing_time": 42.39810228347778,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838177",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/drportiamillardermatology/",
+      "email": "appointments@drportiamillar.com.au",
+      "success": true,
+      "processing_time": 41.001731872558594,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838180",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/John-Relic-100006789886789/",
+      "email": null,
+      "success": false,
+      "processing_time": 32.6220805644989,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:00:55.838183",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/northsidedermatology.com.au/",
+      "email": "reception@northsidedermatology.com.au",
+      "success": true,
+      "processing_time": 45.67516851425171,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838185",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/armderm/",
+      "email": null,
+      "success": false,
+      "processing_time": 40.88009428977966,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:00:55.838187",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/skindepthdermatology/",
+      "email": "reception@skindepth.com.au",
+      "success": true,
+      "processing_time": 46.58683514595032,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838190",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/DermatologyInstituteOfVictoria",
+      "email": "dermatology@div.net.au",
+      "success": true,
+      "processing_time": 46.58114981651306,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838192",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/Cosmeticlaserandskinclinic/",
+      "email": "info@dermacosmetika.com.au",
+      "success": true,
+      "processing_time": 46.084028482437134,
+      "error": null,
+      "timestamp": "2025-11-16T12:00:55.838194",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/QIDerm",
+      "email": "info@qiderm.com.au",
+      "success": true,
+      "processing_time": 8.911601305007935,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534706",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/ensiclinicalcosmetics/",
+      "email": "ensichatr@gmail.com",
+      "success": true,
+      "processing_time": 8.797244787216187,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534729",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/melbourneskin/",
+      "email": "info@melbourneskin.com",
+      "success": true,
+      "processing_time": 8.808118343353271,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534733",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/Adelaideskincancercentre/",
+      "email": "info@physicianssa.com.au",
+      "success": true,
+      "processing_time": 8.238893508911133,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534737",
+      "attempt": 1
+    },
+    {
+      "url": "https://m.facebook.com/profile.php?id=216563845173110",
+      "email": null,
+      "success": false,
+      "processing_time": 26.684147834777832,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:01:24.534741",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/melbourneskin/",
+      "email": "info@melbourneskin.com",
+      "success": true,
+      "processing_time": 10.967637777328491,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534745",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/newcastleskinmedicalcentre/",
+      "email": "coordinator@rapidantigensupervision.com.au",
+      "success": true,
+      "processing_time": 8.321107625961304,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534749",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/theskinhospital",
+      "email": "info@skinhospital.edu.au",
+      "success": true,
+      "processing_time": 8.354325532913208,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534752",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Dr-Michael-Pitney-100072060698215/",
+      "email": null,
+      "success": false,
+      "processing_time": 24.697099685668945,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:01:24.534756",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100089894615632/",
+      "email": "info@procosmetic.com.au",
+      "success": true,
+      "processing_time": 8.829246044158936,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534759",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/LaserSkinCareAU/",
+      "email": "lsc@laserskincare.com.au",
+      "success": true,
+      "processing_time": 8.321156978607178,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534764",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/AesthetixAU/",
+      "email": null,
+      "success": false,
+      "processing_time": 24.811607360839844,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:01:24.534767",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/goodhealthmedicalnet/",
+      "email": "admin@goodhealthmedical.net.au",
+      "success": true,
+      "processing_time": 8.964070320129395,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534770",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100068849763544/",
+      "email": null,
+      "success": false,
+      "processing_time": 25.43777322769165,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:01:24.534774",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/GreenhillsMedicalCentre/",
+      "email": "betterhealthgreenhills@gmail.com",
+      "success": true,
+      "processing_time": 24.049094676971436,
+      "error": null,
+      "timestamp": "2025-11-16T12:01:24.534776",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/groups/951618864874073",
+      "email": "info@canberranoticeboard.com.au",
+      "success": true,
+      "processing_time": 7.84824800491333,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933466",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/BurrumStreetMedicalPractice/",
+      "email": "reception@burrumstreet.com.au",
+      "success": true,
+      "processing_time": 9.929154872894287,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933489",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/turbotstmc/",
+      "email": "info@turbotstmc.com.au",
+      "success": true,
+      "processing_time": 7.895099401473999,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933493",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/poetscornermc.com.au/",
+      "email": "admin@poetscornermc.com.au",
+      "success": true,
+      "processing_time": 9.859516382217407,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933497",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/kirwangp/",
+      "email": "reception@kirwangpclinic.com.au",
+      "success": true,
+      "processing_time": 12.196604013442993,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933500",
+      "attempt": 1
+    },
+    {
+      "url": "https://m.facebook.com/profile.php?id=177580276095449",
+      "email": null,
+      "success": false,
+      "processing_time": 30.847119331359863,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:03.933504",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/ivanhoe.familydoctors/",
+      "email": "reception@ivanhoefamilydoctors.com.au",
+      "success": true,
+      "processing_time": 12.199490785598755,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933508",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100083196617950",
+      "email": "familydoctors@bigpond.com",
+      "success": true,
+      "processing_time": 10.846242666244507,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933511",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Palm-Lake-Medical-Centre-100054248450753/",
+      "email": null,
+      "success": false,
+      "processing_time": 22.275352954864502,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:03.933515",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/mwmedicalcentre.com.au/",
+      "email": "reception@mwmedicalcentre.com.au",
+      "success": true,
+      "processing_time": 12.2040274143219,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933518",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/yourfamilydoctorsaterina/",
+      "email": null,
+      "success": false,
+      "processing_time": 25.046480178833008,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:03.933521",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/AwalMedicalCentre/",
+      "email": "admin@awalmedical.com.au",
+      "success": true,
+      "processing_time": 12.189496994018555,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933525",
+      "attempt": 1
+    },
+    {
+      "url": "https://m.facebook.com/profile.php?id=160795974005763",
+      "email": null,
+      "success": false,
+      "processing_time": 37.382309913635254,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:03.933528",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/WarrawongAccidentandMedicalCentre/",
+      "email": "admin@wamcentre.com.au",
+      "success": true,
+      "processing_time": 12.210983037948608,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933532",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/lakesidesquaremedical/",
+      "email": "reception@lakesidesquaremedical.com.au",
+      "success": true,
+      "processing_time": 10.433415174484253,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:03.933535",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/people/South-Medical-Centre/61559838538428/",
+      "email": null,
+      "success": false,
+      "processing_time": 35.40374565124512,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:43.614796",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/Merthyrmedicalcentre/",
+      "email": "admin@merthyrmedical.com",
+      "success": true,
+      "processing_time": 10.4374520778656,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614818",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/TogetherMedical",
+      "email": "hardtarget200@gmail.com",
+      "success": true,
+      "processing_time": 11.158458232879639,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614822",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/West-Armidale-Medical-Centre-100063696961297/",
+      "email": "admin.armidale@thcfa.org.au",
+      "success": true,
+      "processing_time": 35.5369176864624,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614825",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/thegrangefamilymedical/",
+      "email": "thegrangeclinic@gmail.com",
+      "success": true,
+      "processing_time": 11.90014934539795,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614827",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100083471413180/",
+      "email": "info@glassstreetclinic.com.au",
+      "success": true,
+      "processing_time": 11.620742321014404,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614829",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/gungahlinmedicalpractice",
+      "email": "contact@gungahlinmedicalpractice.com.au",
+      "success": true,
+      "processing_time": 11.376228094100952,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614831",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Nambour-Medical-Centre-100063470951915/",
+      "email": null,
+      "success": false,
+      "processing_time": 37.66803026199341,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:43.614834",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/SladePointSurgery/",
+      "email": "admin@sladepoint.com.au",
+      "success": true,
+      "processing_time": 11.620749235153198,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614839",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/61564581582237/",
+      "email": "bombalastreetsurgery@gmail.com",
+      "success": true,
+      "processing_time": 12.18461298942566,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614844",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/cranbournestawellclinic/",
+      "email": "reception@stawellclinic.com.au",
+      "success": true,
+      "processing_time": 13.370954990386963,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614846",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/drjennycyip/",
+      "email": null,
+      "success": false,
+      "processing_time": 36.49691319465637,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:43.614850",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/LatrobeHealthServices/",
+      "email": null,
+      "success": false,
+      "processing_time": 36.46272015571594,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:02:43.614854",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/NorthernBeachesSkinMedics/",
+      "email": "natasha@nbskinmedics.com.au",
+      "success": true,
+      "processing_time": 11.105193614959717,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614858",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/dandenongspecialisteyesurgeons/",
+      "email": "reception@dandenongeyesurgeons.com.au",
+      "success": true,
+      "processing_time": 11.131348848342896,
+      "error": null,
+      "timestamp": "2025-11-16T12:02:43.614861",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/thelismoreclinic/",
+      "email": "info@herbalmedicine.ie",
+      "success": true,
+      "processing_time": 7.731677770614624,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106086",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/southderm.southernsuburbsdermatology.9/",
+      "email": null,
+      "success": false,
+      "processing_time": 16.546969890594482,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:04.106105",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/walkerstgeneralpractice/",
+      "email": "reception@wsgp.com.au",
+      "success": true,
+      "processing_time": 8.305860996246338,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106109",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/SydneyDermatology/",
+      "email": "info@sydneydermatology.net.au",
+      "success": true,
+      "processing_time": 7.299543380737305,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106111",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/orangedermatology/",
+      "email": "office@orangedms.com.au",
+      "success": true,
+      "processing_time": 7.457968473434448,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106114",
+      "attempt": 1
+    },
+    {
+      "url": "https://m.facebook.com/61572917036406/about/",
+      "email": "info@valentinehealthcare.com.au",
+      "success": true,
+      "processing_time": 18.337566614151,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106117",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/vicdermalgroup/",
+      "email": "info@victoriandermalgroup.com.au",
+      "success": true,
+      "processing_time": 7.869091272354126,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106119",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/bendigodoctors/",
+      "email": "info@bendigodoctorsmc.com.au",
+      "success": true,
+      "processing_time": 8.287859916687012,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106122",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/QueenStMedicalCentre/",
+      "email": "admin@queenstmed.com.au",
+      "success": true,
+      "processing_time": 7.845363140106201,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106124",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/photo.php?fbid=3095175367204825&id=403984962990559&set=a.407122576010131",
+      "email": null,
+      "success": false,
+      "processing_time": 15.976213932037354,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:04.106127",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/LauncestonMedicalCentre/",
+      "email": "info@launcestonmc.com.au",
+      "success": true,
+      "processing_time": 6.419686794281006,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106129",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/Carnegiecentralmedicalclinic/",
+      "email": "manager@carnegiedoctors.com.au",
+      "success": true,
+      "processing_time": 7.587028503417969,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106132",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/EastSydneyDoctors/",
+      "email": "reception@eastsydneydoctors.com.au",
+      "success": true,
+      "processing_time": 6.354997634887695,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106134",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/homecobrandonpark/photos/we-are-pleased-to-announce-that-brandon-park-medical-centres-brand-new-clinic-is/1398292678968766/",
+      "email": null,
+      "success": false,
+      "processing_time": 15.964611768722534,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:04.106136",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/NewsteadMedical/",
+      "email": "newmed@newmed.org",
+      "success": true,
+      "processing_time": 6.984455585479736,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:04.106138",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/excelsiormedicalcentregympie/",
+      "email": null,
+      "success": false,
+      "processing_time": 24.830241441726685,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:31.098807",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100064073312174",
+      "email": "ifmc@ifmc.net.au",
+      "success": true,
+      "processing_time": 13.879064083099365,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098824",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/stirlingclinic/",
+      "email": null,
+      "success": false,
+      "processing_time": 24.871164083480835,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:31.098828",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/topendmedicalcentre/",
+      "email": "adminsp@topendmedicalcentre.com.au",
+      "success": true,
+      "processing_time": 15.030321836471558,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098832",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/donvalemedicalcentre/",
+      "email": "reception@donvalemedical.com.au",
+      "success": true,
+      "processing_time": 10.751061916351318,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098835",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/carinamedicalandspecialistcentre/",
+      "email": "reception@carinamedical.com.au",
+      "success": true,
+      "processing_time": 11.73323392868042,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098837",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/NewcastleFP/",
+      "email": "admin@newcastlefp.com.au",
+      "success": true,
+      "processing_time": 9.73635721206665,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098840",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/smithstmedicalcentre/",
+      "email": "enquiries@smithstmedical.com.au",
+      "success": true,
+      "processing_time": 9.87988567352295,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098842",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/BeaudesertFamilyPractice1/",
+      "email": "office@bfpractice.com",
+      "success": true,
+      "processing_time": 15.103770732879639,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098845",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/manninghamgeneralpractice/",
+      "email": "info@mgp.net.au",
+      "success": true,
+      "processing_time": 14.927035808563232,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098847",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/Lister-House-Clinic-100064174627175/",
+      "email": "reception@listerhouseclinic.com.au",
+      "success": true,
+      "processing_time": 10.182136535644531,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098850",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/gardensskincentre/",
+      "email": "albury.reception@skincancercentres.com.au",
+      "success": true,
+      "processing_time": 15.267823696136475,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098853",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/theneighbourhoodclinicfitzroy/",
+      "email": "info@theneighbourhood.clinic",
+      "success": true,
+      "processing_time": 9.815152645111084,
+      "error": null,
+      "timestamp": "2025-11-16T12:03:31.098855",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/McKinley-Medical-Centre-100057039476806/",
+      "email": null,
+      "success": false,
+      "processing_time": 24.404744625091553,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:31.098857",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/prahranmarketclinic",
+      "email": null,
+      "success": false,
+      "processing_time": 20.686634063720703,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:03:31.098860",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/healthmattersfernvale/",
+      "email": "reception.fernvale@healthmattersgroup.com.au",
+      "success": true,
+      "processing_time": 10.904290199279785,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583259",
+      "attempt": 1
+    },
+    {
+      "url": "https://m.facebook.com/profile.php?id=196707207017989",
+      "email": null,
+      "success": false,
+      "processing_time": 33.3681275844574,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:04:06.583297",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/healthmattersfernvale/",
+      "email": "reception.fernvale@healthmattersgroup.com.au",
+      "success": true,
+      "processing_time": 9.505064487457275,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583301",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/broadmeadowmedicalcentre/",
+      "email": "office@broadmeadowmedical.com.au",
+      "success": true,
+      "processing_time": 9.1100332736969,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583307",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/story.php?story_fbid=1419032289198085&id=100032739830811",
+      "email": null,
+      "success": false,
+      "processing_time": 26.68750286102295,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:04:06.583313",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/wrclinic/",
+      "email": "info@wrclinic.com.au",
+      "success": true,
+      "processing_time": 9.880928993225098,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583316",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Southern-Fleurieu-Family-Practice-61554259041517/",
+      "email": "info@sffp.com.au",
+      "success": true,
+      "processing_time": 28.32354712486267,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583320",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/kiamamedical/",
+      "email": "kiama.medical@kiamamedical.com.au",
+      "success": true,
+      "processing_time": 13.498022079467773,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583324",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/condaminemedical/",
+      "email": "feedback@conmed.com.au",
+      "success": true,
+      "processing_time": 8.885767459869385,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583329",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/mediqwallanmedical/",
+      "email": "vved@nh.org.au",
+      "success": true,
+      "processing_time": 31.997299432754517,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583333",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Kyneton-Medical-Centre-100064814837472/",
+      "email": "reception@kynetonmedical.com.au",
+      "success": true,
+      "processing_time": 28.893800258636475,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583337",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/p/Kyneton-Medical-Centre-100064814837472/",
+      "email": "reception@kynetonmedical.com.au",
+      "success": true,
+      "processing_time": 31.781437635421753,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583340",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/gponbeaufort/",
+      "email": "pracadmin@gponbeaufort.com.au",
+      "success": true,
+      "processing_time": 8.726469993591309,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583343",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100063630457518",
+      "email": null,
+      "success": false,
+      "processing_time": 29.589451551437378,
+      "error": "No email found",
+      "timestamp": "2025-11-16T12:04:06.583346",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100061781725841",
+      "email": "devonport.reception@smartclinics.com.au",
+      "success": true,
+      "processing_time": 9.159505367279053,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:06.583349",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/100063972882101/",
+      "email": "admin@kontikimedical.com.au",
+      "success": true,
+      "processing_time": 2.0381243228912354,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:14.249814",
+      "attempt": 1
+    },
+    {
+      "url": "https://www.facebook.com/TheDrsOnErinStreet/",
+      "email": "reception@wtmed.com.au",
+      "success": true,
+      "processing_time": 4.827455759048462,
+      "error": null,
+      "timestamp": "2025-11-16T12:04:14.249854",
+      "attempt": 1
+    }
+  ],
+  "summary": {
+    "emails_by_domain": {
+      "gmail.com": 5,
+      "melbourneskin.com": 2,
+      "healthmattersgroup.com.au": 2,
+      "kynetonmedical.com.au": 2,
+      "heidelbergdermatology.com.au": 1,
+      "completeskinspecialists.com.au": 1,
+      "skinplus.com.au": 1,
+      "nsdermatology.com.au": 1,
+      "foleydermatology.com.au": 1,
+      "riversdaledermatology.com.au": 1,
+      "drportiamillar.com.au": 1,
+      "northsidedermatology.com.au": 1,
+      "skindepth.com.au": 1,
+      "div.net.au": 1,
+      "dermacosmetika.com.au": 1,
+      "qiderm.com.au": 1,
+      "physicianssa.com.au": 1,
+      "rapidantigensupervision.com.au": 1,
+      "skinhospital.edu.au": 1,
+      "procosmetic.com.au": 1,
+      "laserskincare.com.au": 1,
+      "goodhealthmedical.net.au": 1,
+      "canberranoticeboard.com.au": 1,
+      "burrumstreet.com.au": 1,
+      "turbotstmc.com.au": 1,
+      "poetscornermc.com.au": 1,
+      "kirwangpclinic.com.au": 1,
+      "ivanhoefamilydoctors.com.au": 1,
+      "bigpond.com": 1,
+      "mwmedicalcentre.com.au": 1,
+      "awalmedical.com.au": 1,
+      "wamcentre.com.au": 1,
+      "lakesidesquaremedical.com.au": 1,
+      "merthyrmedical.com": 1,
+      "thcfa.org.au": 1,
+      "glassstreetclinic.com.au": 1,
+      "gungahlinmedicalpractice.com.au": 1,
+      "sladepoint.com.au": 1,
+      "stawellclinic.com.au": 1,
+      "nbskinmedics.com.au": 1,
+      "dandenongeyesurgeons.com.au": 1,
+      "herbalmedicine.ie": 1,
+      "wsgp.com.au": 1,
+      "sydneydermatology.net.au": 1,
+      "orangedms.com.au": 1,
+      "valentinehealthcare.com.au": 1,
+      "victoriandermalgroup.com.au": 1,
+      "bendigodoctorsmc.com.au": 1,
+      "queenstmed.com.au": 1,
+      "launcestonmc.com.au": 1,
+      "carnegiedoctors.com.au": 1,
+      "eastsydneydoctors.com.au": 1,
+      "newmed.org": 1,
+      "ifmc.net.au": 1,
+      "topendmedicalcentre.com.au": 1,
+      "donvalemedical.com.au": 1,
+      "carinamedical.com.au": 1,
+      "newcastlefp.com.au": 1,
+      "smithstmedical.com.au": 1,
+      "bfpractice.com": 1,
+      "mgp.net.au": 1,
+      "listerhouseclinic.com.au": 1,
+      "skincancercentres.com.au": 1,
+      "theneighbourhood.clinic": 1,
+      "broadmeadowmedical.com.au": 1,
+      "wrclinic.com.au": 1,
+      "sffp.com.au": 1,
+      "kiamamedical.com.au": 1,
+      "conmed.com.au": 1,
+      "nh.org.au": 1,
+      "gponbeaufort.com.au": 1,
+      "smartclinics.com.au": 1,
+      "kontikimedical.com.au": 1,
+      "wtmed.com.au": 1
+    },
+    "top_processing_times": [
+      {
+        "url": "https://www.facebook.com/skindepthdermatology/",
+        "processing_time": 46.58683514595032,
+        "success": true,
+        "email": "reception@skindepth.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/DermatologyInstituteOfVictoria",
+        "processing_time": 46.58114981651306,
+        "success": true,
+        "email": "dermatology@div.net.au"
+      },
+      {
+        "url": "https://www.facebook.com/pages/Malvern-Dermatology-Skin-Cancer-Clinic/138900222844014?locale=sv_SE",
+        "processing_time": 46.152841329574585,
+        "success": false,
+        "email": null
+      },
+      {
+        "url": "https://www.facebook.com/100063619750971/",
+        "processing_time": 46.129016399383545,
+        "success": true,
+        "email": "reception@nsdermatology.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/Cosmeticlaserandskinclinic/",
+        "processing_time": 46.084028482437134,
+        "success": true,
+        "email": "info@dermacosmetika.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/heidelbergderm/",
+        "processing_time": 45.69556665420532,
+        "success": true,
+        "email": "reception@heidelbergdermatology.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/northsidedermatology.com.au/",
+        "processing_time": 45.67516851425171,
+        "success": true,
+        "email": "reception@northsidedermatology.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/riversdaledermatology/",
+        "processing_time": 42.39810228347778,
+        "success": true,
+        "email": "reception@riversdaledermatology.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/skinplusfindon/",
+        "processing_time": 41.052006244659424,
+        "success": true,
+        "email": "admin@skinplus.com.au"
+      },
+      {
+        "url": "https://www.facebook.com/drportiamillardermatology/",
+        "processing_time": 41.001731872558594,
+        "success": true,
+        "email": "appointments@drportiamillar.com.au"
+      }
+    ],
+    "error_analysis": {
+      "No email found": 26
+    }
+  }
+}

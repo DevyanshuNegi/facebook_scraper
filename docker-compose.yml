@@ -43,7 +43,7 @@ services:
     command: >
       sh -c "
         while true; do
-          echo '=== $(date) ===';
+          echo '=== $$(date) ===';
           echo 'Container Status:';
           wget -qO- http://facebook-scraper:8080/health 2>/dev/null || echo 'Health check failed';
           echo 'Sleeping for 300 seconds...';

@@ -11,9 +11,9 @@ import threading
 from typing import List, Dict
 from dataclasses import asdict
 
-from ..scraper.core import get_scraper_instance
-from ..scraper.models import ScrapingResult
-from ..scraper.config import default_config
+from scraper.core import get_scraper_instance, OptimizedFacebookScraper
+from scraper.models import ScrapingResult
+from scraper.config import default_config
 
 
 class FacebookScraperAPI:
@@ -60,20 +60,21 @@ class FacebookScraperAPI:
             self.cache[url] = (result, time.time())
     
     def run_async(self, coro):
-        """Run async function in a new thread to avoid blocking Flask"""
+        """Run async function in a new thread with dedicated event loop"""
         def run_in_thread():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
+            # Create a completely fresh event loop in this thread
+            new_loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(new_loop)
             try:
-                return loop.run_until_complete(coro)
+                return new_loop.run_until_complete(coro)
             finally:
-                loop.close()
+                new_loop.close()
         
-        # Use threading to run async code
+        # Use threading to run async code in isolation
         import concurrent.futures
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future = executor.submit(run_in_thread)
-            return future.result()
+            return future.result(timeout=120)  # 2 minute timeout
     
     def scrape(self):
         """Single URL scraping endpoint with caching"""
@@ -94,12 +95,17 @@ class FacebookScraperAPI:
             })
         
         try:
-            # Run async scraping
+            # Run async scraping with fresh scraper instance
             async def scrape_single():
                 cookie_path = default_config.get_absolute_path(default_config.cookies_file)
-                scraper = await get_scraper_instance(cookie_path)
-                result = await scraper.scrape_email_fast(fb_url)
-                return result
+                # Create a new scraper instance for this request to avoid conflicts
+                scraper = OptimizedFacebookScraper(default_config)
+                try:
+                    await scraper.initialize(cookie_path)
+                    result = await scraper.scrape_email_fast(fb_url)
+                    return result
+                finally:
+                    await scraper.close()
             
             result = self.run_async(scrape_single())
             
@@ -167,9 +173,14 @@ class FacebookScraperAPI:
             if uncached_urls:
                 async def scrape_multiple():
                     cookie_path = default_config.get_absolute_path(default_config.cookies_file)
-                    scraper = await get_scraper_instance(cookie_path)
-                    scraping_results = await scraper.scrape_multiple_urls(uncached_urls)
-                    return scraping_results
+                    # Create a new scraper instance for this batch
+                    scraper = OptimizedFacebookScraper(default_config)
+                    try:
+                        await scraper.initialize(cookie_path)
+                        scraping_results = await scraper.scrape_multiple_urls(uncached_urls)
+                        return scraping_results
+                    finally:
+                        await scraper.close()
                 
                 scraping_results = self.run_async(scrape_multiple())
                 

@@ -10,18 +10,18 @@ class ScraperConfig:
     """Configuration settings for the Facebook scraper"""
     
     # Browser settings
-    max_concurrent_pages: int = 15
+    max_concurrent_pages: int = 3  # Reduced for free tier
     browser_timeout: int = 60000
     headless: bool = True
     
     # Performance settings
-    batch_size: int = 15
-    batch_cooldown: float = 2.0
-    page_timeout: int = 15000
+    batch_size: int = 5  # Reduced for free tier
+    batch_cooldown: float = 3.0  # Increased for stability
+    page_timeout: int = 20000  # Increased timeout
     retry_attempts: int = 1
     
     # Cache settings
-    cache_expiry: int = 3600  # 1 hour
+    cache_expiry: int = 1800  # Reduced to 30 minutes for free tier
     enable_caching: bool = True
     
     # File paths
@@ -32,7 +32,7 @@ class ScraperConfig:
     # API settings
     api_host: str = "0.0.0.0"
     api_port: int = 8080
-    max_batch_size: int = 50
+    max_batch_size: int = 20  # Reduced for free tier
     
     # Email extraction settings
     email_patterns: list[str] = None
@@ -63,17 +63,17 @@ class ScraperConfig:
     def from_env(cls) -> 'ScraperConfig':
         """Create configuration from environment variables"""
         return cls(
-            max_concurrent_pages=int(os.getenv('MAX_CONCURRENT_PAGES', '15')),
+            max_concurrent_pages=int(os.getenv('MAX_CONCURRENT_PAGES', '3')),  # Free tier default
             browser_timeout=int(os.getenv('BROWSER_TIMEOUT', '60000')),
             headless=os.getenv('HEADLESS', 'true').lower() == 'true',
-            batch_size=int(os.getenv('BATCH_SIZE', '15')),
-            batch_cooldown=float(os.getenv('BATCH_COOLDOWN', '2.0')),
-            page_timeout=int(os.getenv('PAGE_TIMEOUT', '15000')),
-            cache_expiry=int(os.getenv('CACHE_EXPIRY', '3600')),
+            batch_size=int(os.getenv('BATCH_SIZE', '5')),  # Free tier default
+            batch_cooldown=float(os.getenv('BATCH_COOLDOWN', '3.0')),  # Free tier default
+            page_timeout=int(os.getenv('PAGE_TIMEOUT', '20000')),  # Free tier default
+            cache_expiry=int(os.getenv('CACHE_EXPIRY', '1800')),  # Free tier default
             enable_caching=os.getenv('ENABLE_CACHING', 'true').lower() == 'true',
             api_host=os.getenv('API_HOST', '0.0.0.0'),
             api_port=int(os.getenv('API_PORT', '8080')),
-            max_batch_size=int(os.getenv('MAX_BATCH_SIZE', '50'))
+            max_batch_size=int(os.getenv('MAX_BATCH_SIZE', '20'))  # Free tier default
         )
     
     def get_absolute_path(self, relative_path: str) -> str:

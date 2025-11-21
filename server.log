@@ -1,0 +1,128 @@
+nohup: ignoring input
+🚀 Facebook Scraper API Server
+========================================
+Host: 0.0.0.0
+Port: 8080
+Max concurrent pages: 3
+Caching: Enabled
+========================================
+ * Serving Flask app 'api.server'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://172.25.244.20:8080
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [21/Nov/2025 12:12:39] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:13:13] "POST /scrape HTTP/1.1" 200 -
+Task was destroyed but it is pending!
+task: <Task pending name='Task-2' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+127.0.0.1 - - [21/Nov/2025 12:14:21] "POST /scrape-batch HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:16:01] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:16:24] "POST /scrape HTTP/1.1" 200 -
+Task was destroyed but it is pending!
+task: <Task pending name='Task-11' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+127.0.0.1 - - [21/Nov/2025 12:16:35] "POST /scrape HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:17:01] "POST /scrape HTTP/1.1" 200 -
+Task was destroyed but it is pending!
+task: <Task pending name='Task-19' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+127.0.0.1 - - [21/Nov/2025 12:19:41] "POST /scrape-batch HTTP/1.1" 200 -
+Task was destroyed but it is pending!
+task: <Task pending name='Task-6' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Task was destroyed but it is pending!
+task: <Task pending name='Task-15' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x7aede998e7a0>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 126, in __del__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/base_subprocess.py", line 104, in close
+    proto.pipe.close()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 767, in close
+    self.write_eof()
+  File "/usr/lib/python3.12/asyncio/unix_events.py", line 753, in write_eof
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+    self._check_closed()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Task was destroyed but it is pending!
+task: <Task pending name='Task-23' coro=<Connection.run() running at /home/devyanshu/Desktop/new folder/facebook_scrapper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:314> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+127.0.0.1 - - [21/Nov/2025 12:20:50] "POST /scrape-batch HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:21:38] "GET /cache-stats HTTP/1.1" 200 -
+127.0.0.1 - - [21/Nov/2025 12:21:58] "POST /scrape-batch HTTP/1.1" 200 -

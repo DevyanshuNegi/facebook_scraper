@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  facebook-scraper:
+    build: .
+    ports:
+      - "8080:8080"
+      - "80:8080"  # Also expose on port 80
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./logs:/app/logs
+    environment:
+      # Free tier optimized settings
+      - MAX_CONCURRENT_PAGES=3
+      - BATCH_SIZE=5
+      - PAGE_TIMEOUT=20000
+      - BATCH_COOLDOWN=3.0
+      - CACHE_EXPIRY=1800
+      - ENABLE_CACHING=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 60s
+      timeout: 30s
+      retries: 2
+      start_period: 15s
+    # Resource limits for free tier
+    mem_limit: 800m
+    mem_reservation: 512m
+    cpus: 0.8
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Lightweight monitoring
+  monitoring:
+    image: alpine:latest
+    command: >
+      sh -c "
+        while true; do
+          echo '=== $(date) ===';
+          echo 'Container Status:';
+          wget -qO- http://facebook-scraper:8080/health 2>/dev/null || echo 'Health check failed';
+          echo 'Sleeping for 300 seconds...';
+          sleep 300;
+        done
+      "
+    depends_on:
+      - facebook-scraper
+    restart: unless-stopped

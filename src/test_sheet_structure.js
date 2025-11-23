@@ -1,7 +1,6 @@
 // Debug script to check Google Sheet structure
 require('dotenv').config();
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { JWT } = require('google-auth-library');
 
 async function debugSheetStructure(sheetId) {
     console.log('\n🔍 Debugging Google Sheet Structure\n');
@@ -24,15 +23,18 @@ async function debugSheetStructure(sheetId) {
         console.log('✅ Credentials found');
         console.log('   Service Account:', email);
 
-        const serviceAccountAuth = new JWT({
-            email: email,
-            key: key,
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+        // Replace literal \n with actual newlines
+        const privateKey = key.replace(/\\n/g, '\n');
+
+        // 2. Load sheet (v3 API)
+        console.log('\n📄 Loading sheet...');
+        const doc = new GoogleSpreadsheet(sheetId);
+
+        await doc.useServiceAccountAuth({
+            client_email: email,
+            private_key: privateKey,
         });
 
-        // 2. Load sheet
-        console.log('\n📄 Loading sheet...');
-        const doc = new GoogleSpreadsheet(sheetId, serviceAccountAuth);
         await doc.loadInfo();
 
         console.log('✅ Sheet loaded successfully');
@@ -78,7 +80,7 @@ async function debugSheetStructure(sheetId) {
 
         // 5. Check pending rows
         console.log('\n🔍 Checking for pending rows...');
-        const pending = rows.filter(row => row.get('url') && !row.get('status'));
+        const pending = rows.filter(row => row.url && !row.status);
         console.log('   Pending rows:', pending.length);
 
         if (pending.length === 0) {
@@ -99,10 +101,10 @@ async function debugSheetStructure(sheetId) {
 
         rows.slice(0, 5).forEach((row, index) => {
             const rowNum = index + 2; // +2 for header row
-            const url = row.get('url') || '(empty)';
-            const email = row.get('email') || '(empty)';
-            const status = row.get('status') || '(empty)';
-            const isPending = row.get('url') && !row.get('status') ? '✅ YES' : '❌ NO';
+            const url = row.url || '(empty)';
+            const email = row.email || '(empty)';
+            const status = row.status || '(empty)';
+            const isPending = row.url && !row.status ? '✅ YES' : '❌ NO';
 
             console.log(`${rowNum}   | ${url.substring(0, 30)}... | ${email.substring(0, 15)} | ${status.substring(0, 10)} | ${isPending}`);
         });

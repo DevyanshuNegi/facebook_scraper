@@ -8,20 +8,28 @@ const { log, logError } = require('./utils');
  */
 async function loadSheet(sheetId) {
     const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-    const key = process.env.GOOGLE_PRIVATE_KEY;
+    let key = process.env.GOOGLE_PRIVATE_KEY;
 
     if (!email || !key) {
         throw new Error('Missing Google Sheets credentials in .env');
     }
 
+    // Replace literal \n with actual newlines for v3 API
+    key = key.replace(/\\n/g, '\n');
+
     const doc = new GoogleSpreadsheet(sheetId);
 
-    await doc.useServiceAccountAuth({
-        client_email: email,
-        private_key: key,
-    });
+    try {
+        await doc.useServiceAccountAuth({
+            client_email: email,
+            private_key: key,
+        });
 
-    await doc.loadInfo();
+        await doc.loadInfo();
+    } catch (error) {
+        logError('Failed to authenticate with Google Sheets', error);
+        throw new Error(`Google Sheets auth failed: ${error.message}`);
+    }
 
     return doc.sheetsByIndex[0]; // Return first sheet
 }

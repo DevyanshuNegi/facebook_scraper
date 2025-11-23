@@ -1,0 +1,166 @@
+{
+    "info": {
+        "name": "Facebook Scraper API",
+        "description": "API collection for testing the Facebook Scraper polling system",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "facebook-scraper-api"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000",
+            "type": "string"
+        },
+        {
+            "key": "jobId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "sheetId",
+            "value": "YOUR_GOOGLE_SHEET_ID",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/health",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "health"
+                    ]
+                },
+                "description": "Check if the API server is running and get active job count"
+            },
+            "response": []
+        },
+        {
+            "name": "API Documentation",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Get API documentation and available endpoints"
+            },
+            "response": []
+        },
+        {
+            "name": "Start Polling Job",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Save jobId to collection variable for subsequent requests",
+                            "if (pm.response.code === 200) {",
+                            "    const response = pm.response.json();",
+                            "    pm.collectionVariables.set('jobId', response.jobId);",
+                            "    console.log('Job ID saved:', response.jobId);",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"sheetId\": \"{{sheetId}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/start",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "start"
+                    ]
+                },
+                "description": "Start a new polling job for a Google Sheet. The jobId from the response is automatically saved to the collection variable."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Job Status",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/status/{{jobId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "status",
+                        "{{jobId}}"
+                    ]
+                },
+                "description": "Get the status and statistics of a specific polling job. Uses the jobId saved from 'Start Polling Job' request."
+            },
+            "response": []
+        },
+        {
+            "name": "List All Jobs",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/jobs",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "jobs"
+                    ]
+                },
+                "description": "Get a list of all polling jobs (active and completed)"
+            },
+            "response": []
+        },
+        {
+            "name": "Stop Polling Job",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/stop/{{jobId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stop",
+                        "{{jobId}}"
+                    ]
+                },
+                "description": "Stop a running polling job. Uses the jobId saved from 'Start Polling Job' request."
+            },
+            "response": []
+        }
+    ]
+}

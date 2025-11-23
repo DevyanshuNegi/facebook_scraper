@@ -1,0 +1,35 @@
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Debug files
+debug_*.html
+debug_*.json
+test_results.csv
+performance_report.json
+corrected_analysis.txt
+extract_json.js
+
+# Playwright
+.playwright/
+playwright-report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Output
+scraped_results.csv

@@ -3,26 +3,33 @@
 A high-performance web scraper built with [Playwright](https://playwright.dev/), designed specifically for React-based single-page applications (SPAs). It utilizes a persistent browser instance, resource blocking, and network interception to efficiently extract data.
 # Facebook Scraper API
 
-API-driven Facebook profile scraper with Google Sheets integration and continuous polling support.
+Production-ready microservices architecture for scraping Facebook pages with Google Sheets integration.
+
+## Architecture
+
+**Microservices Pattern** with BullMQ queue-based job processing:
+
+```
+API → scrape-queue → Worker → results-queue → Syncer → Google Sheets
+```
+
+**Services:**
+- **API Server** - REST endpoints, job triggers, Bull Board monitoring
+- **Worker** - Consumes scrape jobs, extracts emails (3 parallel)
+- **Syncer** - Buffers results, batch writes to Sheets (50 items/30s)
 
 ## Project Structure
 
 ```
 src/
 ├── api/          # Express.js API server
-├── core/         # Scraping engine & job management
-├── integrations/ # Google Sheets integration
-└── utils/        # Shared utilities
-
-tests/            # Test files
-docs/             # Documentation (setup, deployment, guides)
-config/           # Configuration files
-scripts/          # Utility scripts
-docker/           # Docker configuration
-data/             # Sample data & results
+├── services/
+│   ├── worker/   # Scraping service
+│   └── syncer/   # Batch writer
+├── queues/       # BullMQ queue configs
+├── config/       # Redis connection
+└── tests/        # Test scripts
 ```
-
-## Features
 
 - **Persistent Browser**: Reuses a single browser instance to minimize overhead.
 - **Resource Blocking**: Blocks images, media, and fonts to speed up page loads.

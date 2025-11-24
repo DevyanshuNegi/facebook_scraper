@@ -1,27 +1,11 @@
 {
     "info": {
-        "name": "Facebook Scraper API",
-        "description": "API collection for testing the Facebook Scraper polling system",
+        "name": "Facebook Scraper API - Microservices",
+        "description": "API collection for microservices-based Facebook scraper with BullMQ",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_exporter_id": "facebook-scraper-api"
+        "_postman_id": "facebook-scraper-microservices",
+        "version": "2.0.0"
     },
-    "variable": [
-        {
-            "key": "baseUrl",
-            "value": "http://localhost:3000",
-            "type": "string"
-        },
-        {
-            "key": "jobId",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "sheetId",
-            "value": "YOUR_GOOGLE_SHEET_ID",
-            "type": "string"
-        }
-    ],
     "item": [
         {
             "name": "Health Check",
@@ -29,54 +13,19 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "{{baseUrl}}/health",
+                    "raw": "{{base_url}}/health",
                     "host": [
-                        "{{baseUrl}}"
+                        "{{base_url}}"
                     ],
                     "path": [
                         "health"
                     ]
                 },
-                "description": "Check if the API server is running and get active job count"
-            },
-            "response": []
+                "description": "Check API server health and active jobs count"
+            }
         },
         {
-            "name": "API Documentation",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "{{baseUrl}}/",
-                    "host": [
-                        "{{baseUrl}}"
-                    ],
-                    "path": [
-                        ""
-                    ]
-                },
-                "description": "Get API documentation and available endpoints"
-            },
-            "response": []
-        },
-        {
-            "name": "Start Polling Job",
-            "event": [
-                {
-                    "listen": "test",
-                    "script": {
-                        "exec": [
-                            "// Save jobId to collection variable for subsequent requests",
-                            "if (pm.response.code === 200) {",
-                            "    const response = pm.response.json();",
-                            "    pm.collectionVariables.set('jobId', response.jobId);",
-                            "    console.log('Job ID saved:', response.jobId);",
-                            "}"
-                        ],
-                        "type": "text/javascript"
-                    }
-                }
-            ],
+            "name": "Start Queue-Based Scraping (NEW)",
             "request": {
                 "method": "POST",
                 "header": [
@@ -87,21 +36,47 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\n  \"sheetId\": \"{{sheetId}}\"\n}"
+                    "raw": "{\n  \"sheetId\": \"YOUR_GOOGLE_SHEET_ID\",\n  \"urls\": [\n    \"https://facebook.com/zuck\",\n    \"https://facebook.com/billgates\"\n  ]\n}"
                 },
                 "url": {
-                    "raw": "{{baseUrl}}/api/start",
+                    "raw": "{{base_url}}/api/start-queue",
                     "host": [
-                        "{{baseUrl}}"
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "start-queue"
+                    ]
+                },
+                "description": "Add URLs to scrape-queue for processing by Worker service. This is the recommended approach for microservices architecture."
+            }
+        },
+        {
+            "name": "Start Legacy Polling Job",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"sheetId\": \"YOUR_GOOGLE_SHEET_ID\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/start",
+                    "host": [
+                        "{{base_url}}"
                     ],
                     "path": [
                         "api",
                         "start"
                     ]
                 },
-                "description": "Start a new polling job for a Google Sheet. The jobId from the response is automatically saved to the collection variable."
-            },
-            "response": []
+                "description": "Legacy endpoint using in-memory polling (backward compatible)"
+            }
         },
         {
             "name": "Get Job Status",
@@ -109,19 +84,49 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "{{baseUrl}}/api/status/{{jobId}}",
+                    "raw": "{{base_url}}/api/status/:jobId",
                     "host": [
-                        "{{baseUrl}}"
+                        "{{base_url}}"
                     ],
                     "path": [
                         "api",
                         "status",
-                        "{{jobId}}"
+                        ":jobId"
+                    ],
+                    "variable": [
+                        {
+                            "key": "jobId",
+                            "value": "your-job-id"
+                        }
                     ]
                 },
-                "description": "Get the status and statistics of a specific polling job. Uses the jobId saved from 'Start Polling Job' request."
-            },
-            "response": []
+                "description": "Get status of a polling job (legacy endpoint)"
+            }
+        },
+        {
+            "name": "Stop Job",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/stop/:jobId",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stop",
+                        ":jobId"
+                    ],
+                    "variable": [
+                        {
+                            "key": "jobId",
+                            "value": "your-job-id"
+                        }
+                    ]
+                },
+                "description": "Stop a running polling job (legacy)"
+            }
         },
         {
             "name": "List All Jobs",
@@ -129,38 +134,42 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "{{baseUrl}}/api/jobs",
+                    "raw": "{{base_url}}/api/jobs",
                     "host": [
-                        "{{baseUrl}}"
+                        "{{base_url}}"
                     ],
                     "path": [
                         "api",
                         "jobs"
                     ]
                 },
-                "description": "Get a list of all polling jobs (active and completed)"
-            },
-            "response": []
+                "description": "List all polling jobs (legacy)"
+            }
         },
         {
-            "name": "Stop Polling Job",
+            "name": "Bull Board - Queue Dashboard",
             "request": {
-                "method": "POST",
+                "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "{{baseUrl}}/api/stop/{{jobId}}",
+                    "raw": "{{base_url}}/admin/queues",
                     "host": [
-                        "{{baseUrl}}"
+                        "{{base_url}}"
                     ],
                     "path": [
-                        "api",
-                        "stop",
-                        "{{jobId}}"
+                        "admin",
+                        "queues"
                     ]
                 },
-                "description": "Stop a running polling job. Uses the jobId saved from 'Start Polling Job' request."
-            },
-            "response": []
+                "description": "Access Bull Board monitoring UI (open in browser)"
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3000",
+            "type": "string"
         }
     ]
 }

@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const ScraperEngine = require('./scraper');
-const { log, logError } = require('./utils');
+const { log, logError } = require('../utils/utils');
 
 class JobManager {
     constructor() {

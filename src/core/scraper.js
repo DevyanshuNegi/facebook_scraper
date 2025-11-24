@@ -1,7 +1,7 @@
-const { chromium } = require('playwright');
-const { log, logError } = require('./utils');
-const { getPendingRows, updateRowStatus, markAsProcessing } = require('./sheets');
-
+const playwright = require('playwright');
+const { log, logError } = require('../utils/utils');
+const { getPendingRows, updateRowStatus, markRowAsProcessing } = require('../integrations/sheets');
+const fs = require('fs');
 class ScraperEngine {
     constructor() {
         this.browser = null;

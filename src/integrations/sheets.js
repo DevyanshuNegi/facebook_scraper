@@ -1,5 +1,5 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { log, logError } = require('./utils');
+const { log, logError } = require('../utils/utils');
 
 /**
  * Load and authenticate with Google Sheet

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const JobManager = require('./jobManager');
-const { log, logError } = require('./utils');
+const JobManager = require('../core/jobManager');
+const { log, logError } = require('../utils/utils');
 
 const app = express();
 const jobManager = new JobManager();

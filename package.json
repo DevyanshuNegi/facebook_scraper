@@ -2,8 +2,9 @@
   "name": "react_scraper_mvp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/api/index.js",
   "scripts": {
+    "start": "node src/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

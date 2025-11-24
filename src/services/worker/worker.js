@@ -9,9 +9,9 @@
  */
 
 const { Worker } = require('bullmq');
-const { connection } = require('../config/redis');
-const { resultsQueue } = require('../queues');
-const { log, logError } = require('../utils/utils');
+const { connection } = require('../../config/redis');
+const { resultsQueue } = require('../../queues');
+const { log, logError } = require('../../utils/utils');
 const playwright = require('playwright');
 
 // Browser pool - reuse browsers for performance

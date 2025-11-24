@@ -1,6 +1,26 @@
 # React Scraper MVP
 
 A high-performance web scraper built with [Playwright](https://playwright.dev/), designed specifically for React-based single-page applications (SPAs). It utilizes a persistent browser instance, resource blocking, and network interception to efficiently extract data.
+# Facebook Scraper API
+
+API-driven Facebook profile scraper with Google Sheets integration and continuous polling support.
+
+## Project Structure
+
+```
+src/
+├── api/          # Express.js API server
+├── core/         # Scraping engine & job management
+├── integrations/ # Google Sheets integration
+└── utils/        # Shared utilities
+
+tests/            # Test files
+docs/             # Documentation (setup, deployment, guides)
+config/           # Configuration files
+scripts/          # Utility scripts
+docker/           # Docker configuration
+data/             # Sample data & results
+```
 
 ## Features
 

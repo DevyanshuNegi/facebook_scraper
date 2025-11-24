@@ -67,9 +67,11 @@ app.post('/api/start', async (req, res) => {
 });
 
 /**
- * Start scraping using BullMQ (New queue-based approach)
+ * Start scraping using BullMQ (Main endpoint - Ingestor pattern)
  * POST /api/start-queue
- * Body: { "sheetId": "your_google_sheet_id", "urls": ["url1", "url2"] }
+ * Body: { "sheetId": "your_google_sheet_id", "urls": [...] (optional) }
+ * 
+ * If urls not provided, reads from Google Sheets automatically
  */
 app.post('/api/start-queue', async (req, res) => {
     try {
@@ -81,31 +83,64 @@ app.post('/api/start-queue', async (req, res) => {
             });
         }
 
-        if (!urls || !Array.isArray(urls) || urls.length === 0) {
-            return res.status(400).json({
-                error: 'Missing or invalid field: urls (must be non-empty array)'
-            });
+        let urlsToQueue;
+
+        // If URLs provided, use them directly
+        if (urls && Array.isArray(urls) && urls.length > 0) {
+            urlsToQueue = urls.map((url, index) => ({
+                url,
+                rowIndex: index + 2, // Assume row 2 onwards
+            }));
+        } else {
+            // Read from Google Sheets (Ingestor pattern)
+            log(`[Ingestor] Reading URLs from Google Sheet: ${sheetId}`);
+
+            const { getPendingRows } = require('../integrations/sheets');
+            const pendingRows = await getPendingRows(sheetId);
+
+            if (pendingRows.length === 0) {
+                return res.json({
+                    sheetId,
+                    jobsAdded: 0,
+                    message: 'No pending URLs found in sheet (all have status)',
+                    monitoringUrl: '/admin/queues'
+                });
+            }
+
+            urlsToQueue = pendingRows.map(row => ({
+                url: row.url,
+                rowIndex: row.rowIndex,
+            }));
+
+            log(`[Ingestor] Found ${urlsToQueue.length} pending URLs`);
         }
 
-        log(`Adding ${urls.length} URLs to scrape-queue for sheet: ${sheetId}`);
-
+        // Add all URLs to queue
         const jobs = [];
-        for (let i = 0; i < urls.length; i++) {
+        for (const item of urlsToQueue) {
             const job = await scrapeQueue.add('scrape-url', {
-                url: urls[i],
-                rowIndex: i + 2, // Row 2 onwards (assuming row 1 is header)
+                url: item.url,
+                rowIndex: item.rowIndex,
                 sheetId,
             }, {
-                jobId: `${sheetId}-row-${i + 2}`, // Deduplication
+                jobId: `${sheetId}-row-${item.rowIndex}`, // Deduplication
             });
-            jobs.push({ jobId: job.id, url: urls[i] });
+            jobs.push({
+                jobId: job.id,
+                url: item.url,
+                rowIndex: item.rowIndex
+            });
         }
+
+        log(`[Ingestor] Added ${jobs.length} jobs to scrape-queue`);
 
         res.json({
             sheetId,
             jobsAdded: jobs.length,
             jobs,
-            message: 'URLs added to scrape queue successfully',
+            message: urls
+                ? 'URLs added to scrape queue successfully'
+                : `${jobs.length} pending URLs from sheet added to queue`,
             monitoringUrl: '/admin/queues'
         });
     } catch (error) {

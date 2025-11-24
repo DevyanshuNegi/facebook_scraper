@@ -1,0 +1,6 @@
+once the error on the postman was that the method was not supported for the particular endpoint, which was starnge
+also server was actually getting the get request but from my end I was sending the post request 
+this was due to firewall which was changing the request automatically form post to get 
+because I havent used https in the base url
+
+

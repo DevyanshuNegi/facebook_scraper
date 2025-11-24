@@ -11,8 +11,13 @@ services:
     container_name: facebook-scraper-api
     ports:
       - "3000:3000"
-    env_file:
-      - .env
+    environment:
+      - PORT=${PORT:-3000}
+      - POLLING_INTERVAL_MS=${POLLING_INTERVAL_MS:-12000}
+      - PARALLEL_BATCH_SIZE=${PARALLEL_BATCH_SIZE:-5}
+      - GOOGLE_SERVICE_ACCOUNT_EMAIL=${GOOGLE_SERVICE_ACCOUNT_EMAIL}
+      - GOOGLE_PRIVATE_KEY=${GOOGLE_PRIVATE_KEY}
+      - FACEBOOK_COOKIES=${FACEBOOK_COOKIES}
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" ]

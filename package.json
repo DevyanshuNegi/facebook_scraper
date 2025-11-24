@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/api/index.js",
     "worker": "node src/services/worker/index.js",
-    "dev": "concurrently \"npm run start\" \"npm run worker\"",
+    "syncer": "node src/services/syncer/index.js",
+    "dev": "concurrently \"npm run start\" \"npm run worker\" \"npm run syncer\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

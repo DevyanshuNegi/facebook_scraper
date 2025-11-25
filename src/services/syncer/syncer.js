@@ -90,8 +90,8 @@ async function flushBuffer() {
                 const row = rows[rowIndex - 2]; // -2 because row 1 is header
 
                 if (row) {
-                    row['Email'] = email;
-                    row['Status'] = status;
+                    row['email'] = email;
+                    row['status'] = status;
                     await row.save();
                     updated++;
                 }

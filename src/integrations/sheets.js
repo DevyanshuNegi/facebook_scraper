@@ -47,7 +47,7 @@ async function getPendingRows(sheetId) {
         const pending = rows
             .map((row, index) => ({
                 row,
-                index: index + 2, // +2 to account for header row (1-indexed)
+                rowIndex: index + 2, // +2 to account for header row (1-indexed)
                 url: row.url
             }))
             .filter(({ row, url }) => url && !row.status);

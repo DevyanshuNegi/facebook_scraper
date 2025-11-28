@@ -501,6 +501,229 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 ---
 
+## Microservices Architecture
+
+### Challenge 16: Microservices Refactoring
+
+**Issue**: Needed to transform monolithic polling architecture into scalable microservices with BullMQ.
+
+**Requirements**:
+- Decouple trigger, scraping, and writing processes
+- Support horizontal scaling
+- Protect against Google Sheets API rate limits
+- Maintain job persistence across crashes
+
+**Solution**:
+- Implemented 3-service architecture: API → Worker → Syncer
+- Used BullMQ with Redis for job queue management
+- Worker service: Consumes scrape jobs (configurable concurrency)
+- Syncer service: Buffers and batch-writes results
+
+**Architecture**:
+```
+API → scrape-queue (Redis) → Worker → results-queue (Redis) → Syncer → Google Sheets
+```
+
+**Files Created**:
+- `src/config/redis.js` - Redis connection
+- `src/queues/scrapeQueue.js` - Scraping jobs queue
+- `src/queues/resultsQueue.js` - Results buffer queue
+- `src/services/worker/worker.js` - Scraping service
+- `src/services/syncer/syncer.js` - Batch writer service
+- `src/api/monitoring.js` - Bull Board UI
+
+**Impact**: Achieved horizontal scalability and 50x reduction in API calls.
+
+---
+
+### Challenge 17: Undefined rowIndex Bug
+
+**Issue**: Worker and Syncer logged `rowIndex: undefined`, causing Syncer to flush 0 results.
+
+**Root Cause**:
+```javascript
+// sheets.js returned:
+{ index: 2, url: "..." }
+
+// But API expected:
+{ rowIndex: 2, url: "..." }
+```
+
+**Solution**: Changed `getPendingRows()` to return `rowIndex` instead of `index`:
+```javascript
+const pending = rows.map((row, index) => ({
+    row,
+    rowIndex: index + 2,  // Changed from 'index'
+    url: row.url
+}));
+```
+
+**Files Modified**:
+- `src/integrations/sheets.js` - Fixed field name
+
+**Impact**: Syncer successfully updated Google Sheets rows.
+
+---
+
+### Challenge 18: Column Name Case Sensitivity
+
+**Issue**: Syncer buffered results but Google Sheets remained empty (0 rows updated).
+
+**Root Cause**: Column names in Syncer code were capitalized but Sheet had lowercase:
+```javascript
+row['Email'] = email;  // ❌ Capital E
+row['Status'] = status; // ❌ Capital S
+```
+
+**Solution**: Changed to lowercase to match sheet headers:
+```javascript
+row['email'] = email;  // ✅ Lowercase
+row['status'] = status; // ✅ Lowercase
+```
+
+**Files Modified**:
+- `src/services/syncer/syncer.js` - Fixed column names
+
+**Impact**: Google Sheets updates worked correctly.
+
+---
+
+### Challenge 19: Google Sheets API Rate Limit (429 Error)
+
+**Issue**: At concurrency 10, hit Google Sheets API rate limit:
+```
+Error: Quota exceeded for quota metric 'Write requests' and limit 
+'Write requests per minute per user'
+```
+
+**Root Cause**: Syncer made 50 separate API calls for 50 results:
+```javascript
+for (each of 50 results) {
+    row.save()  // ❌ API call × 50
+}
+```
+With concurrency 10, this happened in ~2 seconds = **rate limit exceeded**.
+
+**Solution**: Implemented TRUE batch writing (all updates in 1 API call):
+```javascript
+// Update rows in memory (no API calls)
+for (each of 50 results) {
+    row['email'] = email;  // Memory only
+    row['status'] = status; // Memory only
+}
+
+// ONE API call for all 50 rows!
+await sheet.saveUpdatedCells();
+```
+
+**Additional Improvements**:
+- Added exponential backoff retry (2s, 4s, 8s delays)
+- Kept buffer on rate limit errors for next cycle
+- Logged retry attempts for monitoring
+
+**Files Modified**:
+- `src/services/syncer/syncer.js` - Batch writing + retry logic
+
+**Impact**: 
+- **50x reduction** in API calls (50 writes → 1 write)
+- No more rate limit errors even at concurrency 10
+- Successfully processed 100 URLs in 68 seconds
+
+**Performance Improvement**:
+```
+Before: 50 row.save() calls = 50 API requests
+After:  1 saveUpdatedCells() = 1 API request
+Reduction: 98% fewer API calls
+```
+
+---
+
+### Challenge 20: Batch Size Management for Large Sheets
+
+**Issue**: Processing thousands of rows could cause memory issues and overwhelm the system.
+
+**Solution**: Implemented configurable batch size in `/api/start-queue`:
+```javascript
+{
+  "sheetId": "...",
+  "batchSize": 100  // Optional, default 100
+}
+```
+
+**Implementation**:
+- Added `limit` parameter to `getPendingRows()`
+- API defaults to 100 rows per request
+- Users can call endpoint multiple times for progressive processing
+
+**Files Modified**:
+- `src/integrations/sheets.js` - Added limit parameter
+- `src/api/server.js` - Added batchSize support
+
+**Impact**: Can process millions of rows in manageable batches.
+
+---
+
+## Lessons Learned
+
+### Key Takeaways
+
+1. **Module Compatibility**: Always check module type (ESM vs CommonJS) before upgrading packages
+2. **Lock Files**: Regenerate `package-lock.json` after any dependency changes
+3. **API Versioning**: Document API version requirements for dependencies
+4. **Docker Caching**: Order Dockerfile commands from least to most frequently changing
+5. **Health Checks**: Always implement health check endpoints for production services
+6. **Documentation**: Comprehensive guides reduce setup friction significantly
+7. **Field Name Consistency**: Use exact same field names across all services (case-sensitive!)
+8. **Batch Operations**: Always prefer batch API calls over individual calls for rate limits
+9. **Graceful Degradation**: Keep buffers on errors, retry with exponential backoff
+10. **Performance Testing**: Test at different concurrency levels to find bottlenecks
+
+### Best Practices Established
+
+1. **Progressive Enhancement**: Start simple, add features incrementally
+2. **Comprehensive Testing**: Create test scripts for each integration point
+3. **Error Handling**: Log errors with context for debugging
+4. **Configuration Management**: Use environment variables for all config
+5. **Documentation**: Keep guides updated as code evolves
+6. **Microservices**: Decouple services for independent scaling
+7. **Queue-based Architecture**: Use job queues for resilience and scalability
+8. **True Batch Writing**: Group operations to minimize API calls
+
+---
+
+## Summary Statistics
+
+### Development Timeline
+- **Phase 1**: Initial MVP (scraper + sheets integration)
+- **Phase 2**: API transformation (REST API + job management)
+- **Phase 3**: Performance optimization (parallel processing)
+- **Phase 4**: Deployment (Railway + Docker)
+- **Phase 5**: Containerization (Docker + docker-compose)
+- **Phase 6**: Microservices refactor (BullMQ architecture)
+
+### Challenges by Category
+- **Architecture**: 5 challenges
+- **Integration**: 3 challenges
+- **Performance**: 2 challenges
+- **Deployment**: 2 challenges
+- **Containerization**: 4 challenges
+- **Microservices**: 5 challenges
+- **Total**: 21 documented challenges
+
+### Files Created/Modified
+- **Source Files**: 15 files
+- **Configuration**: 8 files
+- **Documentation**: 10 files
+- **Test Scripts**: 7 files
+
+### Performance Achievements
+- **Concurrency 3**: 51 URLs/minute (~3,000/hour)
+- **Concurrency 10**: 88 URLs/minute (~5,300/hour)
+- **Improvement**: 230% faster than initial implementation
+- **API Calls**: 98% reduction via batch writing
+
+---
+
 ## Future Considerations
 
 ### Potential Improvements
@@ -510,17 +733,20 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 3. **Monitoring**: Add Prometheus metrics for production monitoring
 4. **Testing**: Implement automated test suite
 5. **Rate Limiting**: Add configurable rate limiting per job
-6. **Retry Logic**: Implement exponential backoff for failed requests
+6. **Ingestor Service**: Dedicated service to auto-read from sheets
+7. **Browser Pool**: Share browser instances across workers
+8. **Dead Letter Queue**: Handle permanent failures separately
 
 ### Known Limitations
 
-1. **In-Memory State**: Jobs cleared on restart (no persistence)
-2. **Single Instance**: No horizontal scaling support yet
-3. **Cookie Expiry**: Manual cookie refresh required periodically
-4. **Error Recovery**: Limited automatic retry on failures
+1. **Cookie Expiry**: Manual cookie refresh required periodically
+2. **Single Redis Instance**: No Redis clustering for high availability
+3. **Memory Buffering**: Syncer buffer lost on crash (use Redis for persistence)
+4. **No Job Prioritization**: FIFO queue only (could add priority levels)
 
 ---
 
-**Last Updated**: 2025-11-23  
-**Version**: 1.0.0  
+**Last Updated**: 2025-11-28  
+**Version**: 2.0.0  
 **Maintainer**: Development Team
+

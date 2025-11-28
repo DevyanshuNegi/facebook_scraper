@@ -37,14 +37,15 @@ async function loadSheet(sheetId) {
 /**
  * Get pending rows from Google Sheet (rows where url exists but status is empty)
  * @param {string} sheetId - Google Sheet ID
- * @returns {Array} Array of { row, index, url }
+ * @param {number} limit - Maximum rows to return (for batching)
+ * @returns {Array} Array of { row, rowIndex, url }
  */
-async function getPendingRows(sheetId) {
+async function getPendingRows(sheetId, limit = null) {
     try {
         const sheet = await loadSheet(sheetId);
         const rows = await sheet.getRows();
 
-        const pending = rows
+        let pending = rows
             .map((row, index) => ({
                 row,
                 rowIndex: index + 2, // +2 to account for header row (1-indexed)
@@ -52,7 +53,12 @@ async function getPendingRows(sheetId) {
             }))
             .filter(({ row, url }) => url && !row.status);
 
-        log(`Found ${pending.length} pending rows in sheet ${sheetId}`);
+        // Apply limit if specified
+        if (limit && limit > 0) {
+            pending = pending.slice(0, limit);
+        }
+
+        log(`Found ${pending.length} pending rows in sheet ${sheetId}${limit ? ` (limited to ${limit})` : ''}`);
         return pending;
     } catch (error) {
         logError('Failed to get pending rows', error);

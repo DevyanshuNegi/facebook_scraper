@@ -69,13 +69,17 @@ app.post('/api/start', async (req, res) => {
 /**
  * Start scraping using BullMQ (Main endpoint - Ingestor pattern)
  * POST /api/start-queue
- * Body: { "sheetId": "your_google_sheet_id", "urls": [...] (optional) }
- * 
+ * Body: {
+ *   "sheetId": "your_google_sheet_id",
+ *   "urls": [...] (optional),
+ *   "batchSize": 50 (optional, default 100)
+ * }
+ *
  * If urls not provided, reads from Google Sheets automatically
  */
 app.post('/api/start-queue', async (req, res) => {
     try {
-        const { sheetId, urls } = req.body;
+        const { sheetId, urls, batchSize } = req.body;
 
         if (!sheetId) {
             return res.status(400).json({
@@ -83,6 +87,7 @@ app.post('/api/start-queue', async (req, res) => {
             });
         }
 
+        const limit = parseInt(batchSize || '100', 10);
         let urlsToQueue;
 
         // If URLs provided, use them directly
@@ -93,10 +98,10 @@ app.post('/api/start-queue', async (req, res) => {
             }));
         } else {
             // Read from Google Sheets (Ingestor pattern)
-            log(`[Ingestor] Reading URLs from Google Sheet: ${sheetId}`);
+            log(`[Ingestor] Reading URLs from Google Sheet: ${sheetId} (batch size: ${limit})`);
 
             const { getPendingRows } = require('../integrations/sheets');
-            const pendingRows = await getPendingRows(sheetId);
+            const pendingRows = await getPendingRows(sheetId, limit);
 
             if (pendingRows.length === 0) {
                 return res.json({
@@ -137,10 +142,11 @@ app.post('/api/start-queue', async (req, res) => {
         res.json({
             sheetId,
             jobsAdded: jobs.length,
+            batchSize: limit,
             jobs,
             message: urls
                 ? 'URLs added to scrape queue successfully'
-                : `${jobs.length} pending URLs from sheet added to queue`,
+                : `${jobs.length} pending URLs from sheet added to queue (batch size: ${limit})`,
             monitoringUrl: '/admin/queues'
         });
     } catch (error) {

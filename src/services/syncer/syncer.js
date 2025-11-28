@@ -56,7 +56,7 @@ async function loadSheet(sheetId) {
 }
 
 /**
- * Flush buffered results to Google Sheets
+ * Flush buffered results to Google Sheets with retry logic
  */
 async function flushBuffer() {
     const sheetsToFlush = Object.keys(resultBuffer);
@@ -74,37 +74,65 @@ async function flushBuffer() {
             continue;
         }
 
-        try {
-            // Load the sheet
-            const doc = await loadSheet(sheetId);
-            const sheet = doc.sheetsByIndex[0]; // First sheet
-            await sheet.loadHeaderRow();
-            const rows = await sheet.getRows();
+        let retries = 0;
+        const maxRetries = 3;
+        let success = false;
 
-            // Batch update rows
-            let updated = 0;
-            for (const result of results) {
-                const { rowIndex, email, status } = result;
+        while (retries < maxRetries && !success) {
+            try {
+                // Load the sheet
+                const doc = await loadSheet(sheetId);
+                const sheet = doc.sheetsByIndex[0]; // First sheet
+                await sheet.loadHeaderRow();
+                const rows = await sheet.getRows();
 
-                // Find the row (rowIndex is 1-based, getRows is 0-based)
-                const row = rows[rowIndex - 2]; // -2 because row 1 is header
+                // Update rows in memory (no API calls yet)
+                let updated = 0;
+                for (const result of results) {
+                    const { rowIndex, email, status } = result;
 
-                if (row) {
-                    row['email'] = email;
-                    row['status'] = status;
-                    await row.save();
-                    updated++;
+                    // Find the row (rowIndex is 1-based, getRows is 0-based)
+                    const row = rows[rowIndex - 2]; // -2 because row 1 is header
+
+                    if (row) {
+                        row['email'] = email;
+                        row['status'] = status;
+                        updated++;
+                    }
+                }
+
+                // CRITICAL: Save all rows in ONE API call!
+                if (updated > 0) {
+                    await sheet.saveUpdatedCells();
+                    log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId} (1 API call for ${updated} rows)`);
+                }
+
+                success = true;
+
+                // Clear this sheet's buffer only on success
+                delete resultBuffer[sheetId];
+
+            } catch (error) {
+                // Check if it's a rate limit error (429)
+                if (error.message?.includes('429') || error.message?.includes('Quota exceeded')) {
+                    retries++;
+                    const waitTime = Math.pow(2, retries) * 1000; // Exponential backoff: 2s, 4s, 8s
+
+                    if (retries < maxRetries) {
+                        log(`[Syncer] ⚠️  Rate limit hit. Retry ${retries}/${maxRetries} after ${waitTime}ms...`);
+                        await new Promise(resolve => setTimeout(resolve, waitTime));
+                    } else {
+                        logError(`[Syncer] ❌ Rate limit retry exhausted for sheet ${sheetId}. Keeping ${results.length} results buffered.`, error);
+                        // Keep buffer - will retry on next flush cycle
+                    }
+                } else {
+                    // Non-rate-limit error - log and clear buffer
+                    logError(`[Syncer] Failed to flush results for sheet ${sheetId}`, error);
+                    delete resultBuffer[sheetId];
+                    break;
                 }
             }
-
-            log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId}`);
-        } catch (error) {
-            logError(`[Syncer] Failed to flush results for sheet ${sheetId}`, error);
-            // Don't throw - continue with other sheets
         }
-
-        // Clear this sheet's buffer
-        delete resultBuffer[sheetId];
     }
 
     log(`[Syncer] Flush complete`);

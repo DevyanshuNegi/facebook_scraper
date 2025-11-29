@@ -62,13 +62,21 @@ async function scrapeUrl(url) {
         const cookiesEnv = process.env.FACEBOOK_COOKIES;
         if (cookiesEnv) {
             try {
-                const cookiesArray = JSON.parse(cookiesEnv);
+                let cookiesArray = JSON.parse(cookiesEnv);
+
+                // Handle nested arrays (common user error: [[{...}]])
+                if (Array.isArray(cookiesArray) && Array.isArray(cookiesArray[0])) {
+                    log('[Worker] Detected nested cookie array, flattening...');
+                    cookiesArray = cookiesArray.flat();
+                }
+
                 if (Array.isArray(cookiesArray) && cookiesArray.length > 0) {
+                    log(`[Worker] Injecting ${cookiesArray.length} cookies...`);
                     await context.addCookies(cookiesArray);
-                    log('[Worker] Cookies injected');
+                    log('[Worker] Cookies injected successfully');
                 }
             } catch (error) {
-                logError('[Worker] Failed to parse cookies', error);
+                logError('[Worker] Failed to parse/inject cookies', error);
             }
         }
 

@@ -72,23 +72,19 @@ async function startIngestor(sheetId) {
         throw new Error('Sheet ID is required. Set GOOGLE_SHEET_ID in .env or pass as argument.');
     }
 
-    log(`🔄 Starting Ingestor Service...`);
+    log(`🔄 Starting Ingestor Service (Greedy Mode)...`);
     log(`   Sheet ID: ${sheetId}`);
-    log(`   Poll Interval: ${POLL_INTERVAL_MS}ms (${POLL_INTERVAL_MS / 1000}s)`);
+    log(`   Poll Interval: ${POLL_INTERVAL_MS}ms (when empty)`);
     log(`   Batch Size: ${BATCH_SIZE}`);
 
-    // Initial poll
-    await pollAndIngest(sheetId);
-
-    // Schedule periodic polling
-    const intervalId = setInterval(async () => {
-        await pollAndIngest(sheetId);
-    }, POLL_INTERVAL_MS);
+    let isRunning = true;
+    let timeoutId = null;
 
     // Graceful shutdown
     const shutdown = async () => {
         log('[Ingestor] Shutting down...');
-        clearInterval(intervalId);
+        isRunning = false;
+        if (timeoutId) clearTimeout(timeoutId);
         await scrapeQueue.close();
         process.exit(0);
     };
@@ -96,7 +92,34 @@ async function startIngestor(sheetId) {
     process.on('SIGTERM', shutdown);
     process.on('SIGINT', shutdown);
 
-    log(`✅ Ingestor service running. Polling every ${POLL_INTERVAL_MS / 1000}s...`);
+    // Recursive polling loop
+    const runLoop = async () => {
+        if (!isRunning) return;
+
+        try {
+            const added = await pollAndIngest(sheetId);
+
+            if (added > 0) {
+                // Found rows! Don't wait 60s.
+                // Wait a tiny bit (5s) to let queue absorb, then go again immediately.
+                log(`[Ingestor] 🚀 Found rows! Checking for more in 5s...`);
+                timeoutId = setTimeout(runLoop, 5000);
+            } else {
+                // No rows found. Wait full interval.
+                log(`[Ingestor] 💤 No rows. Sleeping for ${POLL_INTERVAL_MS / 1000}s...`);
+                timeoutId = setTimeout(runLoop, POLL_INTERVAL_MS);
+            }
+        } catch (error) {
+            logError('[Ingestor] Error in loop', error);
+            // On error, wait full interval before retrying
+            timeoutId = setTimeout(runLoop, POLL_INTERVAL_MS);
+        }
+    };
+
+    // Start the loop
+    runLoop();
+
+    log(`✅ Ingestor service running.`);
     log(`   Press Ctrl+C to stop`);
 }
 

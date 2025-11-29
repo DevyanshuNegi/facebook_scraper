@@ -4,7 +4,7 @@
         "description": "Microservices-based Facebook scraper with BullMQ queue management",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "_postman_id": "facebook-scraper-microservices-v2",
-        "version": "2.0.0"
+        "version": "2.1.0"
     },
     "variable": [
         {
@@ -56,7 +56,7 @@
             "response": []
         },
         {
-            "name": "Start Queue-Based Scraping (Main Endpoint)",
+            "name": "Start Queue-Based Scraping",
             "request": {
                 "method": "POST",
                 "header": [
@@ -79,7 +79,7 @@
                         "start-queue"
                     ]
                 },
-                "description": "Reads pending rows from Google Sheet and adds to scrape-queue. URLs parameter is optional - if not provided, automatically reads from sheet."
+                "description": "Reads pending rows from Google Sheet and adds to scrape-queue"
             },
             "response": []
         },
@@ -107,7 +107,7 @@
                         "start-queue"
                     ]
                 },
-                "description": "Manually specify URLs to scrape instead of reading from sheet"
+                "description": "Manually specify URLs to scrape"
             },
             "response": []
         },
@@ -135,7 +135,145 @@
                         "start-queue"
                     ]
                 },
-                "description": "Limit number of rows to process (useful for large sheets with 1000s of rows)"
+                "description": "Limit number of rows to process"
+            },
+            "response": []
+        },
+        {
+            "name": "Queue Stats",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/queue/stats",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "stats"
+                    ]
+                },
+                "description": "Get queue statistics: waiting, active, completed, failed, paused status"
+            },
+            "response": []
+        },
+        {
+            "name": "Pause Queue",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/queue/pause",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "pause"
+                    ]
+                },
+                "description": "Pause queue - stops processing new jobs. Running jobs will complete."
+            },
+            "response": []
+        },
+        {
+            "name": "Resume Queue",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/queue/resume",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "resume"
+                    ]
+                },
+                "description": "Resume paused queue"
+            },
+            "response": []
+        },
+        {
+            "name": "Drain Queue (Remove Waiting)",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/queue/drain",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "drain"
+                    ]
+                },
+                "description": "Remove all waiting jobs. Active jobs continue running."
+            },
+            "response": []
+        },
+        {
+            "name": "Clean Queue (Remove Old)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"grace\": 3600000\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/queue/clean",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "clean"
+                    ]
+                },
+                "description": "Remove completed/failed jobs older than grace period (default 1 hour = 3600000ms)"
+            },
+            "response": []
+        },
+        {
+            "name": "Obliterate Queue (DELETE ALL)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"confirm\": \"YES_DELETE_ALL\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/api/queue/obliterate",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "queue",
+                        "obliterate"
+                    ]
+                },
+                "description": "⚠️ DANGER: Removes ALL jobs from queue (waiting, active, completed, failed). Requires confirmation."
             },
             "response": []
         },
@@ -154,7 +292,7 @@
                         "queues"
                     ]
                 },
-                "description": "Open Bull Board UI in browser to monitor queue status, view jobs, retry failed jobs, etc."
+                "description": "Open Bull Board UI in browser to monitor queues visually"
             },
             "response": []
         }

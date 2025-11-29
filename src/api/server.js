@@ -150,8 +150,14 @@ app.get('/', (req, res) => {
         architecture: 'BullMQ + Redis Queue-based',
         endpoints: {
             'GET /health': 'Health check with queue stats',
-            'POST /api/start-queue': 'Add URLs to scrape queue (body: { sheetId, urls?, batchSize? })',
-            'GET /admin/queues': 'Bull Board monitoring UI (open in browser)'
+            'POST /api/start-queue': 'Add URLs to scrape queue',
+            'POST /api/queue/pause': 'Pause queue (stop new jobs)',
+            'POST /api/queue/resume': 'Resume queue',
+            'POST /api/queue/drain': 'Remove all waiting jobs',
+            'POST /api/queue/clean': 'Remove old completed/failed jobs',
+            'POST /api/queue/obliterate': 'DANGER: Remove ALL jobs',
+            'GET /api/queue/stats': 'Get queue statistics',
+            'GET /admin/queues': 'Bull Board monitoring UI'
         },
         services: {
             'API': 'Triggers jobs and provides monitoring',

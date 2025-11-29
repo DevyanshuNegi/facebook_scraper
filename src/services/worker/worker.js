@@ -128,6 +128,18 @@ async function scrapeUrl(url) {
         if (!email) {
             status = 'Not found';
             log(`[Worker] No email found for: ${url}`);
+
+            // Debug: Save HTML to see what we actually got
+            try {
+                const html = await page.content();
+                const safeUrl = url.replace(/[^a-z0-9]/gi, '_').substring(0, 50);
+                const dumpPath = `debug-${safeUrl}-${Date.now()}.html`;
+                const fs = require('fs');
+                fs.writeFileSync(dumpPath, html);
+                log(`[Worker] 📄 Saved HTML dump to ${dumpPath}`);
+            } catch (e) {
+                logError('[Worker] Failed to save HTML dump', e);
+            }
         }
 
     } catch (error) {

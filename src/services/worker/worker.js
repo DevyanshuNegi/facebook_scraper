@@ -71,8 +71,16 @@ async function scrapeUrl(url) {
                 }
 
                 if (Array.isArray(cookiesArray) && cookiesArray.length > 0) {
-                    log(`[Worker] Injecting ${cookiesArray.length} cookies...`);
-                    await context.addCookies(cookiesArray);
+                    // Sanitize cookies for Playwright
+                    const sanitizedCookies = cookiesArray.map(cookie => {
+                        const newCookie = { ...cookie };
+                        if (newCookie.sameSite === 'no_restriction') newCookie.sameSite = 'None';
+                        if (newCookie.sameSite === 'unspecified') newCookie.sameSite = 'Lax';
+                        return newCookie;
+                    });
+
+                    log(`[Worker] Injecting ${sanitizedCookies.length} cookies...`);
+                    await context.addCookies(sanitizedCookies);
                     log('[Worker] Cookies injected successfully');
                 }
             } catch (error) {

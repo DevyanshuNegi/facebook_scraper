@@ -85,9 +85,9 @@ async function flushBuffer() {
                 await sheet.loadHeaderRow();
                 const rows = await sheet.getRows();
 
-                // Update rows in memory and collect updates for batch
+                // Update rows in memory
                 let updated = 0;
-                const updates = [];
+                const rowsToSave = [];
 
                 for (const result of results) {
                     const { rowIndex, email, status } = result;
@@ -96,43 +96,23 @@ async function flushBuffer() {
                     const row = rows[rowIndex - 2]; // -2 because row 1 is header
 
                     if (row) {
-                        // Mark values for update
                         row['email'] = email || 'Not found';
                         row['status'] = status || 'Done';
-
-                        // Collect update info for batch
-                        updates.push({
-                            rowNumber: rowIndex,
-                            email: email || 'Not found',
-                            status: status || 'Done'
-                        });
+                        rowsToSave.push(row);
                         updated++;
                     } else {
                         log(`[Syncer] ⚠️  Row ${rowIndex} not found in sheet`);
                     }
                 }
 
-                // Batch update all rows in ONE API call
+                // Save all rows concurrently (v3 API)
                 if (updated > 0) {
-                    log(`[Syncer] Batch updating ${updated} rows...`);
+                    log(`[Syncer] Saving ${updated} rows concurrently...`);
 
-                    // Use batchUpdate for true batching
-                    const emailColIndex = sheet.headerValues.indexOf('email');
-                    const statusColIndex = sheet.headerValues.indexOf('status');
+                    // Save all rows in parallel (still multiple API calls but faster)
+                    await Promise.all(rowsToSave.map(row => row.save()));
 
-                    const batchUpdates = updates.map(u => ({
-                        range: `A${u.rowNumber}:Z${u.rowNumber}`,
-                        values: [[
-                            ...Array(emailColIndex).fill(undefined),
-                            u.email,
-                            u.status
-                        ]]
-                    }));
-
-                    // Single API call for all updates!
-                    await doc.batchUpdate(batchUpdates);
-
-                    log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId} (1 batch API call for ${updated} rows)`);
+                    log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId} (${updated} concurrent saves)`);
                 }
 
                 success = true;

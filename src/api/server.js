@@ -1,12 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const JobManager = require('../core/jobManager');
 const { log, logError } = require('../utils/utils');
 const { serverAdapter } = require('./monitoring');
 const { scrapeQueue } = require('../queues');
 
 const app = express();
-const jobManager = new JobManager();
 
 // Middleware
 app.use(express.json());
@@ -21,47 +19,31 @@ app.use((req, res, next) => {
 });
 
 /**
- * Health check endpoint for Railway
+ * Health check endpoint
  */
-app.get('/health', (req, res) => {
-    const activeJobs = jobManager.getAllJobs().filter(j => j.status === 'running').length;
-    res.json({
-        status: 'ok',
-        uptime: process.uptime(),
-        activeJobs,
-        timestamp: new Date().toISOString()
-    });
-});
-
-/**
- * Start a new polling job (Legacy - uses JobManager)
- * POST /api/start
- * Body: { "sheetId": "your_google_sheet_id" }
- */
-app.post('/api/start', async (req, res) => {
+app.get('/health', async (req, res) => {
     try {
-        const { sheetId } = req.body;
-
-        if (!sheetId) {
-            return res.status(400).json({
-                error: 'Missing required field: sheetId'
-            });
-        }
-
-        log(`Starting polling job for sheet: ${sheetId}`);
-        const jobId = await jobManager.startJob(sheetId);
+        const [waiting, active, completed] = await Promise.all([
+            scrapeQueue.getWaitingCount(),
+            scrapeQueue.getActiveCount(),
+            scrapeQueue.getCompletedCount(),
+        ]);
 
         res.json({
-            jobId,
-            sheetId,
-            status: 'started',
-            message: 'Polling job started successfully (Legacy mode)'
+            status: 'ok',
+            uptime: process.uptime(),
+            queues: {
+                waiting,
+                active,
+                completed
+            },
+            timestamp: new Date().toISOString()
         });
     } catch (error) {
-        logError('Error starting job', error);
-        res.status(500).json({
-            error: 'Failed to start job',
-            message: error.message
+        res.json({
+            status: 'ok',
+            uptime: process.uptime(),
+            timestamp: new Date().toISOString()
         });
     }
 });
@@ -159,71 +141,23 @@ app.post('/api/start-queue', async (req, res) => {
 });
 
 /**
- * Get job status
- * GET /api/status/:jobId
- */
-app.get('/api/status/:jobId', (req, res) => {
-    const { jobId } = req.params;
-    const status = jobManager.getJobStatus(jobId);
-
-    if (!status) {
-        return res.status(404).json({
-            error: 'Job not found',
-            jobId
-        });
-    }
-
-    res.json(status);
-});
-
-/**
- * Stop a polling job
- * POST /api/stop/:jobId
- */
-app.post('/api/stop/:jobId', async (req, res) => {
-    try {
-        const { jobId } = req.params;
-        await jobManager.stopJob(jobId);
-
-        res.json({
-            jobId,
-            status: 'stopped',
-            message: 'Job stopped successfully'
-        });
-    } catch (error) {
-        logError('Error stopping job', error);
-        res.status(500).json({
-            error: 'Failed to stop job',
-            message: error.message
-        });
-    }
-});
-
-/**
- * List all jobs
- * GET /api/jobs
- */
-app.get('/api/jobs', (req, res) => {
-    const jobs = jobManager.getAllJobs();
-    res.json({
-        count: jobs.length,
-        jobs
-    });
-});
-
-/**
  * Root endpoint - API documentation
  */
 app.get('/', (req, res) => {
     res.json({
-        name: 'Facebook Scraper API',
-        version: '1.0.0',
+        name: 'Facebook Scraper API - Microservices',
+        version: '2.0.0',
+        architecture: 'BullMQ + Redis Queue-based',
         endpoints: {
-            'GET /health': 'Health check',
-            'POST /api/start': 'Start polling job (body: { sheetId })',
-            'GET /api/status/:jobId': 'Get job status',
-            'POST /api/stop/:jobId': 'Stop polling job',
-            'GET /api/jobs': 'List all jobs'
+            'GET /health': 'Health check with queue stats',
+            'POST /api/start-queue': 'Add URLs to scrape queue (body: { sheetId, urls?, batchSize? })',
+            'GET /admin/queues': 'Bull Board monitoring UI (open in browser)'
+        },
+        services: {
+            'API': 'Triggers jobs and provides monitoring',
+            'Worker': 'Processes scrape jobs (concurrency: 10)',
+            'Syncer': 'Batch writes to Google Sheets',
+            'Ingestor': 'Auto-polls sheets for new rows'
         }
     });
 });

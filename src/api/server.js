@@ -328,15 +328,18 @@ async function startServer(port = 3000) {
         });
 
         // Graceful shutdown
-        const shutdown = async (signal) => {
-            log(`\n${signal} received. Shutting down gracefully...`);
-            await jobManager.shutdown();
+        const shutdown = async () => {
+            log('SIGINT received. Shutting down gracefully...');
+
+            log('Shutting down all jobs...');
+            await scrapeQueue.close();
+            log('All jobs stopped');
+
             server.close(() => {
                 log('Server closed');
                 process.exit(0);
             });
         };
-
         process.on('SIGTERM', () => shutdown('SIGTERM'));
         process.on('SIGINT', () => shutdown('SIGINT'));
     });

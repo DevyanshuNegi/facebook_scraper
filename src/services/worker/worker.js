@@ -55,6 +55,7 @@ async function scrapeUrl(url) {
 
     let email = null;
     let status = 'Done';
+    let page = null;
 
     try {
         // Load cookies if available
@@ -71,7 +72,7 @@ async function scrapeUrl(url) {
             }
         }
 
-        const page = await context.newPage();
+        page = await context.newPage();
 
         // Block unnecessary resources for performance
         await page.route('**/*', (route) => {
@@ -124,6 +125,15 @@ async function scrapeUrl(url) {
     } catch (error) {
         logError(`[Worker] Scraping error for ${url}`, error);
         status = 'Failed';
+
+        // Capture screenshot on failure for debugging
+        try {
+            const screenshotPath = `error-${Date.now()}.png`;
+            await page.screenshot({ path: screenshotPath });
+            log(`[Worker] 📸 Screenshot saved to ${screenshotPath}`);
+        } catch (e) {
+            logError('[Worker] Failed to save screenshot', e);
+        }
     } finally {
         await context.close();
     }

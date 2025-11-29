@@ -141,6 +141,142 @@ app.post('/api/start-queue', async (req, res) => {
 });
 
 /**
+ * Pause scrape queue
+ * POST /api/queue/pause
+ */
+app.post('/api/queue/pause', async (req, res) => {
+    try {
+        await scrapeQueue.pause();
+        log('[API] Scrape queue paused');
+
+        res.json({
+            status: 'paused',
+            message: 'Queue paused. Running jobs will complete, no new jobs will start.'
+        });
+    } catch (error) {
+        logError('Error pausing queue', error);
+        res.status(500).json({ error: 'Failed to pause queue', message: error.message });
+    }
+});
+
+/**
+ * Resume scrape queue
+ * POST /api/queue/resume
+ */
+app.post('/api/queue/resume', async (req, res) => {
+    try {
+        await scrapeQueue.resume();
+        log('[API] Scrape queue resumed');
+
+        res.json({
+            status: 'resumed',
+            message: 'Queue resumed. Processing jobs now.'
+        });
+    } catch (error) {
+        logError('Error resuming queue', error);
+        res.status(500).json({ error: 'Failed to resume queue', message: error.message });
+    }
+});
+
+/**
+ * Drain queue - remove waiting jobs
+ * POST /api/queue/drain
+ */
+app.post('/api/queue/drain', async (req, res) => {
+    try {
+        const beforeCount = await scrapeQueue.getWaitingCount();
+        await scrapeQueue.drain();
+
+        log(`[API] Drained ${beforeCount} waiting jobs`);
+
+        res.json({
+            status: 'drained',
+            removedJobs: beforeCount,
+            message: `Removed ${beforeCount} waiting jobs. Active jobs continue.`
+        });
+    } catch (error) {
+        logError('Error draining queue', error);
+        res.status(500).json({ error: 'Failed to drain queue', message: error.message });
+    }
+});
+
+/**
+ * Clean queue - remove old jobs
+ * POST /api/queue/clean
+ */
+app.post('/api/queue/clean', async (req, res) => {
+    try {
+        const grace = req.body.grace || 3600000; // 1 hour default
+
+        const [completed, failed] = await Promise.all([
+            scrapeQueue.clean(grace, 0, 'completed'),
+            scrapeQueue.clean(grace, 0, 'failed'),
+        ]);
+
+        log(`[API] Cleaned ${completed.length + failed.length} old jobs`);
+
+        res.json({
+            status: 'cleaned',
+            removed: { completed: completed.length, failed: failed.length },
+            message: `Removed ${completed.length + failed.length} old jobs`
+        });
+    } catch (error) {
+        logError('Error cleaning queue', error);
+        res.status(500).json({ error: 'Failed to clean queue', message: error.message });
+    }
+});
+
+/**
+ * Obliterate queue - DELETE ALL
+ * POST /api/queue/obliterate
+ */
+app.post('/api/queue/obliterate', async (req, res) => {
+    try {
+        if (req.body.confirm !== 'YES_DELETE_ALL') {
+            return res.status(400).json({
+                error: 'Confirmation required',
+                message: 'Send { "confirm": "YES_DELETE_ALL" } to obliterate queue'
+            });
+        }
+
+        await scrapeQueue.obliterate();
+        log('[API] ⚠️  Queue obliterated!');
+
+        res.json({
+            status: 'obliterated',
+            message: 'ALL jobs removed from queue'
+        });
+    } catch (error) {
+        logError('Error obliterating queue', error);
+        res.status(500).json({ error: 'Failed to obliterate queue', message: error.message });
+    }
+});
+
+/**
+ * Get queue stats
+ * GET /api/queue/stats
+ */
+app.get('/api/queue/stats', async (req, res) => {
+    try {
+        const [waiting, active, completed, failed, isPaused] = await Promise.all([
+            scrapeQueue.getWaitingCount(),
+            scrapeQueue.getActiveCount(),
+            scrapeQueue.getCompletedCount(),
+            scrapeQueue.getFailedCount(),
+            scrapeQueue.isPaused(),
+        ]);
+
+        res.json({
+            isPaused,
+            counts: { waiting, active, completed, failed, total: waiting + active + completed + failed }
+        });
+    } catch (error) {
+        logError('Error getting stats', error);
+        res.status(500).json({ error: 'Failed to get stats', message: error.message });
+    }
+});
+
+/**
  * Root endpoint - API documentation
  */
 app.get('/', (req, res) => {

@@ -88,6 +88,8 @@ async function flushBuffer() {
 
                 // Update rows in memory (no API calls yet)
                 let updated = 0;
+                const rowsToSave = [];
+
                 for (const result of results) {
                     const { rowIndex, email, status } = result;
 
@@ -95,16 +97,25 @@ async function flushBuffer() {
                     const row = rows[rowIndex - 2]; // -2 because row 1 is header
 
                     if (row) {
-                        row['email'] = email;
-                        row['status'] = status;
+                        row['email'] = email || 'Not found';
+                        row['status'] = status || 'Done';
+                        rowsToSave.push(row);
                         updated++;
+                    } else {
+                        log(`[Syncer] ⚠️  Row ${rowIndex} not found in sheet`);
                     }
                 }
 
-                // CRITICAL: Save all rows in ONE API call!
+                // Save all updated rows
                 if (updated > 0) {
-                    await sheet.saveUpdatedCells();
-                    log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId} (1 API call for ${updated} rows)`);
+                    log(`[Syncer] Saving ${updated} rows...`);
+
+                    // Save rows individually (v3 API requirement)
+                    for (const row of rowsToSave) {
+                        await row.save();
+                    }
+
+                    log(`[Syncer] ✅ Flushed ${updated} results to sheet ${sheetId} (${updated} rows saved)`);
                 }
 
                 success = true;

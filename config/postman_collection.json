@@ -1,11 +1,23 @@
 {
     "info": {
         "name": "Facebook Scraper API - Microservices",
-        "description": "API collection for microservices-based Facebook scraper with BullMQ",
+        "description": "Microservices-based Facebook scraper with BullMQ queue management",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_postman_id": "facebook-scraper-microservices",
+        "_postman_id": "facebook-scraper-microservices-v2",
         "version": "2.0.0"
     },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3000",
+            "type": "string"
+        },
+        {
+            "key": "sheet_id",
+            "value": "YOUR_GOOGLE_SHEET_ID",
+            "type": "string"
+        }
+    ],
     "item": [
         {
             "name": "Health Check",
@@ -21,11 +33,30 @@
                         "health"
                     ]
                 },
-                "description": "Check API server health and active jobs count"
-            }
+                "description": "Check API health and view queue statistics (waiting, active, completed jobs)"
+            },
+            "response": []
         },
         {
-            "name": "Start Queue-Based Scraping (NEW)",
+            "name": "API Documentation",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Get API documentation with available endpoints and services"
+            },
+            "response": []
+        },
+        {
+            "name": "Start Queue-Based Scraping (Main Endpoint)",
             "request": {
                 "method": "POST",
                 "header": [
@@ -36,7 +67,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\n  \"sheetId\": \"YOUR_GOOGLE_SHEET_ID\",\n  \"urls\": [\n    \"https://facebook.com/zuck\",\n    \"https://facebook.com/billgates\"\n  ]\n}"
+                    "raw": "{\n  \"sheetId\": \"{{sheet_id}}\"\n}"
                 },
                 "url": {
                     "raw": "{{base_url}}/api/start-queue",
@@ -48,11 +79,12 @@
                         "start-queue"
                     ]
                 },
-                "description": "Add URLs to scrape-queue for processing by Worker service. This is the recommended approach for microservices architecture."
-            }
+                "description": "Reads pending rows from Google Sheet and adds to scrape-queue. URLs parameter is optional - if not provided, automatically reads from sheet."
+            },
+            "response": []
         },
         {
-            "name": "Start Legacy Polling Job",
+            "name": "Start with Manual URLs",
             "request": {
                 "method": "POST",
                 "header": [
@@ -63,91 +95,52 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\n  \"sheetId\": \"YOUR_GOOGLE_SHEET_ID\"\n}"
+                    "raw": "{\n  \"sheetId\": \"{{sheet_id}}\",\n  \"urls\": [\n    \"https://facebook.com/zuck\",\n    \"https://facebook.com/billgates\"\n  ]\n}"
                 },
                 "url": {
-                    "raw": "{{base_url}}/api/start",
+                    "raw": "{{base_url}}/api/start-queue",
                     "host": [
                         "{{base_url}}"
                     ],
                     "path": [
                         "api",
-                        "start"
+                        "start-queue"
                     ]
                 },
-                "description": "Legacy endpoint using in-memory polling (backward compatible)"
-            }
+                "description": "Manually specify URLs to scrape instead of reading from sheet"
+            },
+            "response": []
         },
         {
-            "name": "Get Job Status",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "{{base_url}}/api/status/:jobId",
-                    "host": [
-                        "{{base_url}}"
-                    ],
-                    "path": [
-                        "api",
-                        "status",
-                        ":jobId"
-                    ],
-                    "variable": [
-                        {
-                            "key": "jobId",
-                            "value": "your-job-id"
-                        }
-                    ]
-                },
-                "description": "Get status of a polling job (legacy endpoint)"
-            }
-        },
-        {
-            "name": "Stop Job",
+            "name": "Start with Batch Size",
             "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"sheetId\": \"{{sheet_id}}\",\n  \"batchSize\": 50\n}"
+                },
                 "url": {
-                    "raw": "{{base_url}}/api/stop/:jobId",
+                    "raw": "{{base_url}}/api/start-queue",
                     "host": [
                         "{{base_url}}"
                     ],
                     "path": [
                         "api",
-                        "stop",
-                        ":jobId"
-                    ],
-                    "variable": [
-                        {
-                            "key": "jobId",
-                            "value": "your-job-id"
-                        }
+                        "start-queue"
                     ]
                 },
-                "description": "Stop a running polling job (legacy)"
-            }
+                "description": "Limit number of rows to process (useful for large sheets with 1000s of rows)"
+            },
+            "response": []
         },
         {
-            "name": "List All Jobs",
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "{{base_url}}/api/jobs",
-                    "host": [
-                        "{{base_url}}"
-                    ],
-                    "path": [
-                        "api",
-                        "jobs"
-                    ]
-                },
-                "description": "List all polling jobs (legacy)"
-            }
-        },
-        {
-            "name": "Bull Board - Queue Dashboard",
+            "name": "Bull Board - Queue Monitoring",
             "request": {
                 "method": "GET",
                 "header": [],
@@ -161,15 +154,9 @@
                         "queues"
                     ]
                 },
-                "description": "Access Bull Board monitoring UI (open in browser)"
-            }
-        }
-    ],
-    "variable": [
-        {
-            "key": "base_url",
-            "value": "http://localhost:3000",
-            "type": "string"
+                "description": "Open Bull Board UI in browser to monitor queue status, view jobs, retry failed jobs, etc."
+            },
+            "response": []
         }
     ]
 }

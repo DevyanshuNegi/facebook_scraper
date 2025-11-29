@@ -93,14 +93,15 @@ async function scrapeUrl(url) {
         });
 
         // Navigate and scrape
+        // Navigate and scrape
         log(`[Worker] Scraping: ${url}`);
         await page.goto(url, {
-            waitUntil: 'domcontentloaded',
-            timeout: 30000
+            waitUntil: 'networkidle', // Wait for network to be idle (better for SPAs)
+            timeout: 60000 // Increased timeout
         });
 
-        // Wait for React to render
-        await page.waitForTimeout(2000);
+        // Wait for React to render (increased to 5s)
+        await page.waitForTimeout(5000);
 
         // Extract email using network interception
         const scriptTags = await page.$$('script[type="application/json"]');

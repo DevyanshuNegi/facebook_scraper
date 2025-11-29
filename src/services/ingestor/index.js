@@ -8,10 +8,14 @@ const { startIngestor } = require('./ingestor');
 const sheetId = process.argv[2] || process.env.GOOGLE_SHEET_ID;
 
 if (!sheetId) {
-    console.error('❌ Error: Sheet ID is required!');
-    console.error('Usage: node src/services/ingestor/index.js <SHEET_ID>');
-    console.error('   or: Set GOOGLE_SHEET_ID in .env');
-    process.exit(1);
+    console.log('ℹ️  Ingestor disabled: No GOOGLE_SHEET_ID configured');
+    console.log('   To enable auto-polling:');
+    console.log('   1. Set GOOGLE_SHEET_ID in .env');
+    console.log('   2. Or run: npm run ingestor <SHEET_ID>');
+    console.log('   For manual control, use: npm run dev:manual');
+
+    // Exit gracefully without error
+    process.exit(0);
 }
 
 // Start the ingestor
